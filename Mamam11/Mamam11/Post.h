@@ -21,7 +21,7 @@ public:
 #pragma endregion
 
 #pragma region Operators 
-	Post& operator=(const Post& post);
+	Post& operator=(const Post& post);	
 	bool operator==(const Post& post);
 	friend std::ostream& operator<<(std::ostream& stream, const Post& post);
 #pragma endregion

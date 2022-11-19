@@ -21,6 +21,15 @@
     <ClCompile Include="USocial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BusinessUser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Media.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Post.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Message.h">

@@ -127,7 +127,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BusinessUser.cpp" />
     <ClCompile Include="Mamam11.cpp" />
+    <ClCompile Include="Media.cpp" />
+    <ClCompile Include="Post.cpp" />
     <ClCompile Include="USocial.cpp" />
   </ItemGroup>
   <ItemGroup>
