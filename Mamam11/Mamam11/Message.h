@@ -2,7 +2,7 @@
 #include <string>
 class Message {
 private:
-	std::string text;
+	std::string _text;
 
 public:
 	std::string getText();
