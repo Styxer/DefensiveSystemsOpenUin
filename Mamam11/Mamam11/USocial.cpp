@@ -38,7 +38,9 @@ User* USocial::getUserById(unsigned long userId)
 	User* user = users[userId];
 	if (user == NULL)
 	{
-		throw std::invalid_argument("user not found");
+		char* errorMessage = new char[300];
+		sprintf(errorMessage, "user with %lu nott found", userId);
+		throw std::invalid_argument(errorMessage);
 	}
 	return user;
 }
@@ -66,5 +68,19 @@ USocial::~USocial()
 	for (auto const& user : users)
 		delete user.second;
 }
+#pragma endregion
+
+#pragma region Overrides
+
+//ovrride  "ToString"  method to make perttier printing
+std::ostream& operator<<(std::ostream& stream, const USocial& usocial)
+{
+	for (auto user : usocial.users)
+	{
+		stream << *user.second << std::endl;
+	}
+	return stream << std::endl;
+}
+
 #pragma endregion
 

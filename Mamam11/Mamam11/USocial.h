@@ -19,7 +19,7 @@ public:
 #pragma endregion
 
 //#pragma region Operators
-//	friend std::ostream& operator<<(std::ostream& stream, const USocial& usocial);	
+	friend std::ostream& operator<<(std::ostream& stream, const USocial& usocial);	
 //	USocial& operator=(const USocial& usocial);
 //
 //#pragma endregion
