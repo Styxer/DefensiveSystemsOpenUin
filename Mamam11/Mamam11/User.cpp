@@ -2,12 +2,14 @@
 #include <algorithm>
 #include <memory>
 
+constexpr auto MAX_STR_LEN =  300;;
+
 unsigned long User::nextUserId = 1;
 
 #pragma region Construcrs
 User::User()
 {
-	char* defaultUserName = new char[300];
+	char* defaultUserName = new char[MAX_STR_LEN];
 	sprintf(defaultUserName, "user %lu", nextUserId);
 
 	id = nextUserId++;
@@ -76,7 +78,7 @@ void User::addFriend(User* user)
 	//throw exception is user is already a friend of this user
 	if (isFriend(user))	
 	{
-		char* errorMessage = new char[300];
+		char* errorMessage = new char[MAX_STR_LEN];
 		sprintf(errorMessage, "user with id %lu and name %s is already a friend of a user with id %lu and %s", user->id, user->name, id, name);
 		throw std::invalid_argument(errorMessage);
 	}
@@ -94,7 +96,7 @@ void User::removeFriend(User* user)
 		friends.remove(user->id);// remove given user from this user's friend list
 	}
 
-	char* errorMessage = new char[300];
+	char* errorMessage = new char[MAX_STR_LEN];
 	sprintf(errorMessage, "user with id %lu and name %s is not a friend of a user with id %lu and %s", user->id, user->name, id, name);
 	throw std::invalid_argument(errorMessage);
 }
