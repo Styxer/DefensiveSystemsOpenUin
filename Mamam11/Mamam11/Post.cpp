@@ -9,7 +9,7 @@
 
 Post::Post(std::string text) : _text(text), _media(NULL) {}
 
-Post::Post(std::string text) : _text(text), _media(_media) {}
+Post::Post(std::string text, Media* media) : _text(text), _media(_media) {}
 
 #pragma endregion
 
@@ -24,9 +24,10 @@ Media* Post::getMedia() {
 }
 #pragma endregion
 
+#pragma region Opreators
 Post& Post::operator=(const Post& post)
 {
-	if (&post != this) 
+	if (&post != this)
 	{
 		Post::Post(post);
 	}
@@ -39,6 +40,20 @@ bool Post::operator==(const Post& post)
 		&& _media == post._media;
 }
 
+std::ostream& operator<<(std::ostream& stream, const Post& post)
+{
+	stream << "Post-->{Text |" << post._text << "|";
+	if (post._media != NULL)
+	{
+		stream << "Media: " << post._media->getMediaDescription();
+	}
+	stream << "}";
+	return stream << std::endl;
+}
+
+#pragma endregion
+
+
 Post::~Post() 
 {
 	if (_media != NULL) {
@@ -47,4 +62,6 @@ Post::~Post()
 		_media = NULL;
 	}
 }
+
+
 

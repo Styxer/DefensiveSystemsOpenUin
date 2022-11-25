@@ -3,7 +3,9 @@
 #include <iostream>
 class Audio : public Media {
 public:
-	void display() {
-		std::cout << "audio\n";
+	void display() 
+	{
+		std::cout << "audio " << std::endl;	
 	}
+	std::string getMediaDescription() { return "Audio"; }
 };

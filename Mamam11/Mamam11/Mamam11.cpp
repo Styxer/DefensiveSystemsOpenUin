@@ -1,5 +1,8 @@
 ﻿#include <exception>
 #include <iostream>
+#include "User.h"
+#include "Audio.h"
+#include "Photo.h"
 int main()
 {
 	USocial us;
@@ -18,8 +21,7 @@ int main()
 	u5->viewReceivedMessages();
 	try
 	{
-		u3->sendMessage(u5, new Message("All your base are belong to 
-			us"));
+		u3->sendMessage(u5, new Message("All your base are belong to us"));
 	}
 	catch (const std::exception& e)
 	{

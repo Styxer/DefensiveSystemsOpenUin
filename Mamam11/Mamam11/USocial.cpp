@@ -39,7 +39,7 @@ User* USocial::getUserById(unsigned long userId)
 	if (user == NULL)
 	{
 		char* errorMessage = new char[300];
-		sprintf(errorMessage, "user with %lu nott found", userId);
+		sprintf_s(errorMessage, 300, "user with %lu nott found", userId);
 		throw std::invalid_argument(errorMessage);
 	}
 	return user;

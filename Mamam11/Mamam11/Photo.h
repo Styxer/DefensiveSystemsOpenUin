@@ -1,10 +1,12 @@
 #pragma once
 #include "Media.h"
 #include <iostream>
-class Photos : public Media {
+class Photo : public Media {
 public:
-	void display() {
-	std::cout << "Photo\n";
+	void display() 
+	{
+		std::cout << "Photo" << std::endl;
 	}
+	std::string getMediaDescription() { return "Photo"; }
 
 };

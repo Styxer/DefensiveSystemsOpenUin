@@ -3,7 +3,9 @@
 #include <iostream>
 class Video : public Media {
 public:
-	void display() {
-		std::cout << "video\n";
+	void display()
+	{
+		std::cout << "video" << std::endl;
 	}
+	std::string getMediaDescription() { return "video"; }
 };

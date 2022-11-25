@@ -1,16 +1,20 @@
 #include "User.h"
 #include <algorithm>
 #include <memory>
+#include <stdio.h>
 
 constexpr auto MAX_STR_LEN =  300;;
 
 unsigned long User::nextUserId = 1;
 
-#pragma region Construcrs
+#pragma region Constructors
+/// <summary>
+/// 
+/// </summary>
 User::User()
 {
 	char* defaultUserName = new char[MAX_STR_LEN];
-	sprintf(defaultUserName, "user %lu", nextUserId);
+	sprintf_s(defaultUserName, MAX_STR_LEN, "user %lu", nextUserId);
 
 	id = nextUserId++;
 	name = defaultUserName;
@@ -25,18 +29,19 @@ User::User(const User& user)
 	us = user.us;
 
 	//copy the message list
-	for (auto  message : user.receivedMsgs)
+	for (auto message : user.receivedMsgs)
 		receivedMsgs.push_back(new Message(*message));
 
 	//copy posts list
-	for (auto  post : user.posts)
+	for (auto post : user.posts)
 		posts.push_back(new Post(*post));
 
 	//copy friends list
-	for (auto  friendId : user.friends)
+	for (auto friendId : user.friends)
 		friends.push_back(friendId);
 }
-#pragma endregon
+#pragma endregion
+
 
 
 
@@ -44,13 +49,20 @@ User::User(const User& user)
 User::~User()
 {
 	//clear all items from posts list
-	std::for_each(posts.begin(), posts.end(), std::default_delete<Post*>());
+	//std::for_each(posts.begin(), posts.end(), std::default_delete<Post*>());
+
+	std::for_each(posts.begin(), posts.end(), [&](const decltype(posts)::reference& v) {
+		posts.remove(v);
+		});
 
 	//clear all items from message list
-	std::for_each(receivedMsgs.begin(), receivedMsgs.end(), std::default_delete<Message*>());
+	/*std::for_each(receivedMsgs.begin(), receivedMsgs.end(), ~Message);*/
+
+	receivedMsgs.clear();
 
 	//clear all items from friends list
-	std::for_each(friends.begin(), friends.end(), std::default_delete<unsigned long>());
+	friends.clear();
+
 }
 #pragma endregion
 
@@ -79,7 +91,7 @@ void User::addFriend(User* user)
 	if (isFriend(user))	
 	{
 		char* errorMessage = new char[MAX_STR_LEN];
-		sprintf(errorMessage, "user with id %lu and name %s is already a friend of a user with id %lu and %s", user->id, user->name, id, name);
+		sprintf_s(errorMessage, MAX_STR_LEN, "user with id %lu and name %s is already a friend of a user with id %lu and %s", user->id, user->name.c_str(), id, name.c_str());
 		throw std::invalid_argument(errorMessage);
 	}
 
@@ -97,9 +109,32 @@ void User::removeFriend(User* user)
 	}
 
 	char* errorMessage = new char[MAX_STR_LEN];
-	sprintf(errorMessage, "user with id %lu and name %s is not a friend of a user with id %lu and %s", user->id, user->name, id, name);
+	sprintf_s(errorMessage, MAX_STR_LEN, "user with id %lu and name %s is not a friend of a user with id %lu and %s", user->id, user->name.c_str(), id, name.c_str());
 	throw std::invalid_argument(errorMessage);
 }
+
+#pragma region Posts related functions
+void User::post(std::string text)
+{
+	posts.push_back(new Post(text));
+}
+
+void User::post(std::string text, Media* media)
+{
+	posts.push_back(new Post(text, media));
+}
+
+void User::viewFriendsPosts()
+{
+	if (friends.empty())
+	{
+		std::cout << *this << " has not friends" << std::endl;
+		return;
+	}
+}
+
+#pragma endregion
+
 
 
 #pragma region Overrirdes
