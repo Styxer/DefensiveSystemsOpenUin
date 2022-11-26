@@ -11,6 +11,9 @@ Post::Post(std::string text) : _text(text), _media(NULL) {}
 
 Post::Post(std::string text, Media* media) : _text(text), _media(_media) {}
 
+
+
+
 #pragma endregion
 
 #pragma region Getters
@@ -25,14 +28,14 @@ Media* Post::getMedia() {
 #pragma endregion
 
 #pragma region Opreators
-Post& Post::operator=(const Post& post)
-{
-	if (&post != this)
-	{
-		Post::Post(post);
-	}
-	return *this;
-}
+//Post& Post::operator=(const Post& post)
+//{
+//	if (&post != this)
+//	{
+//		Post::Post(post);
+//	}
+//	return *this;
+//}
 
 bool Post::operator==(const Post& post)
 {

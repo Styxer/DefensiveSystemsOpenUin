@@ -48,15 +48,14 @@ User::User(const User& user)
 #pragma region destructor
 User::~User()
 {
-	//clear all items from posts list
-	//std::for_each(posts.begin(), posts.end(), std::default_delete<Post*>());
+	//note: no need to do for-each with delete
+	//becuase the each contains detructor will be call on each iteration 
 
-	std::for_each(posts.begin(), posts.end(), [&](const decltype(posts)::reference& v) {
-		posts.remove(v);
-		});
+
+	//clear all items from posts list
+	posts.clear();
 
 	//clear all items from message list
-	/*std::for_each(receivedMsgs.begin(), receivedMsgs.end(), ~Message);*/
 
 	receivedMsgs.clear();
 
@@ -64,6 +63,7 @@ User::~User()
 	friends.clear();
 
 }
+
 #pragma endregion
 
 #pragma region Getters
@@ -87,6 +87,16 @@ std::list<Post*> User::getPosts()
 
 void User::addFriend(User* user)
 {
+	if (user == NULL)
+	{
+		throw std::invalid_argument("incoming user paramaters is null");
+	}
+
+	if (user == this)
+	{
+		std::cout << " cannot add yourself as a friend" << std::endl;
+	}
+
 	//throw exception is user is already a friend of this user
 	if (isFriend(user))	
 	{
@@ -95,23 +105,74 @@ void User::addFriend(User* user)
 		throw std::invalid_argument(errorMessage);
 	}
 
+	
+
 	user->friends.push_back(id);// add this user to given user's friend list 
 	friends.push_back(user->id);// add  user to this user's friend list 
-
+	
 }
-#pragma endregion
+
 void User::removeFriend(User* user)
 {
+	if (user == NULL)
+	{
+		throw std::invalid_argument("incoming user parameter is null");
+	}
+
+	if (user == this)
+	{
+		std::cout << "you cannot remove yourself from friends list" << std::endl;
+	}
+
 	if (!isFriend(user))
 	{
 		user->friends.remove(id);// remove this user from given user's friend list 
 		friends.remove(user->id);// remove given user from this user's friend list
 	}
+	else
+	{
 
-	char* errorMessage = new char[MAX_STR_LEN];
-	sprintf_s(errorMessage, MAX_STR_LEN, "user with id %lu and name %s is not a friend of a user with id %lu and %s", user->id, user->name.c_str(), id, name.c_str());
-	throw std::invalid_argument(errorMessage);
+		char* errorMessage = new char[MAX_STR_LEN];
+		sprintf_s(errorMessage, MAX_STR_LEN, "user with id %lu and name %s is not a friend of a user with id %lu and %s", user->id, user->name.c_str(), id, name.c_str());
+		throw std::invalid_argument(errorMessage);
+	}
 }
+
+void User::viewFriendsPosts()
+{
+	if (friends.empty())
+	{
+		std::cout << *this << " has not friends" << std::endl;
+		return;
+	}
+
+	std::cout << *this << "friends posts" << std::endl;
+
+
+	for (auto friendId : friends)
+	{
+		User* usersFriend = us->getUserById(friendId);
+		std::cout << "\t\t" << *usersFriend << ":";
+		for (auto post : usersFriend->posts)
+			std::cout << std::endl << "\t" << *post;
+		std::cout << std::endl;
+	}
+}
+
+bool User::isFriend(User* user)
+{
+	for (auto friendId : friends)
+	{
+		if (friendId == user->id)
+		{
+			return true;
+		}
+		return false;
+	}
+}
+#pragma endregion
+
+
 
 #pragma region Posts related functions
 void User::post(std::string text)
@@ -123,17 +184,51 @@ void User::post(std::string text, Media* media)
 {
 	posts.push_back(new Post(text, media));
 }
+#pragma endregion
 
-void User::viewFriendsPosts()
+
+#pragma region Message related fucntions
+void User::receiveMessage(Message* message)
 {
-	if (friends.empty())
+	receivedMsgs.push_back(message);
+}
+
+void User::sendMessage(User* user, Message* message)
+{
+	if (!isFriend(user))
 	{
-		std::cout << *this << " has not friends" << std::endl;
+		std::cout << *this << " cannot send message to " << *user << " " << std::endl;
+		std::cout << "Only buisness user can send message to users which are not in thier freinds list";
 		return;
+	}
+	else if (user == this)
+	{
+		std::cout << " cannot send message to yourself " << std::endl;
+		return;
+	}
+	else 
+	{
+		user->receivedMsgs.push_back(new Message(message->getText()));
+	}
+}
+
+void User::viewReceivedMessages()
+{
+	if (receivedMsgs.empty())
+	{
+		std::cout << " you have no messages " << std::endl;
+		return;
+	}
+
+	std::cout << *this << " messages are: " << std::endl;
+	for (auto message : receivedMsgs)
+	{
+		std::cout << "\t\t" << message->getText() << std::endl;
 	}
 }
 
 #pragma endregion
+
 
 
 
@@ -142,6 +237,12 @@ void User::viewFriendsPosts()
 std::ostream& operator<<(std::ostream& stream, const User& user)
 {
 	return stream << "User " << user.id << user.name << user.us <<  std::endl;
+}
+
+
+bool User::operator==(const User& user)
+{
+	return id == user.id;
 }
 #pragma endregion
 

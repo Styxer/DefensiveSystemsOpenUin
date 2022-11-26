@@ -17,6 +17,12 @@ User* USocial::registerUser(std::string userName, bool isBusinessAccount)
 
 void USocial::removeUser(User* user)
 {
+	if (users.empty())
+	{
+		std::cout << "  USocial has to users in it" << std::endl;
+		return;
+	}
+
 	//throw if send user i null
 	if (user == NULL)
 	{
@@ -35,6 +41,13 @@ void USocial::removeUser(User* user)
 
 User* USocial::getUserById(unsigned long userId)
 {
+
+	if (users.empty())
+	{
+		std::cout << "  USocial has to users in it" << std::endl;
+		return NULL;
+	}
+
 	User* user = users[userId];
 	if (user == NULL)
 	{
@@ -42,6 +55,8 @@ User* USocial::getUserById(unsigned long userId)
 		sprintf_s(errorMessage, 300, "user with %lu nott found", userId);
 		throw std::invalid_argument(errorMessage);
 	}
+
+
 	return user;
 }
 #pragma endregion
@@ -56,8 +71,8 @@ USocial::USocial(const USocial& usocial)
 	this->users.clear();
 
 	//copy users
-	for (auto const& user : usocial.users)
-		this->users.insert(std::make_pair(user.first, user.second));}
+	for (auto user : usocial.users)
+		users.insert(std::make_pair(user.first, user.second));}
 
 #pragma endregion
 
@@ -65,7 +80,7 @@ USocial::USocial(const USocial& usocial)
 USocial::~USocial()
 {
 	// release all users
-	for (auto const& user : users)
+	for (auto  user : users)
 		delete user.second;
 }
 #pragma endregion

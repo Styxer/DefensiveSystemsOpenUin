@@ -60,8 +60,8 @@ public:
 	void viewReceivedMessages();
 #pragma endregion
 
-	User& operator=(const User& post);
-	bool operator==(const User& post) const;
+	//User& operator=(const User& post);
+	bool operator==(const User& post);
 	friend std::ostream& operator<<(std::ostream& stream, const User& user);
 
 	

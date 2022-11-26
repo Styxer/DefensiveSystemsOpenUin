@@ -8,8 +8,9 @@ class User;
 class USocial {
 private:
 	friend class User;
-
 	std::map<unsigned long, User*> users;
+
+	
 
 public:
 #pragma region Methods
