@@ -198,13 +198,13 @@ void User::sendMessage(User* user, Message* message)
 	if (!isFriend(user))
 	{
 		std::cout << *this << " cannot send message to " << *user << " " << std::endl;
-		std::cout << "Only buisness user can send message to users which are not in thier freinds list";
-		return;
+		std::cout << "Only buisness user can send message to users which are not in thier freinds list" << std::endl;
+		
 	}
 	else if (user == this)
 	{
 		std::cout << " cannot send message to yourself " << std::endl;
-		return;
+		
 	}
 	else 
 	{
@@ -236,7 +236,10 @@ void User::viewReceivedMessages()
 
 std::ostream& operator<<(std::ostream& stream, const User& user)
 {
-	return stream << "User " << user.id << user.name << user.us <<  std::endl;
+	return stream << "User id:" << user.id 
+		<< "\tname:" << user.name
+		<< "\t network:" << user.us << std::endl;
+
 }
 
 
