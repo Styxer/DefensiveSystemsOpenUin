@@ -3,7 +3,7 @@
 #include <memory>
 #include <stdio.h>
 
-constexpr auto MAX_STR_LEN =  300;;
+constexpr auto MAX_STR_LEN =  300;
 
 unsigned long User::nextUserId = 1;
 
@@ -213,6 +213,20 @@ void User::receiveMessage(Message* message)
 /// <param name="message">the message the user wants to send</param>
 void User::sendMessage(User* user, Message* message)
 {
+	if (user == NULL)
+	{
+		char* errorMessage = new char[MAX_STR_LEN];
+		sprintf_s(errorMessage, MAX_STR_LEN, "user is null");
+		throw std::invalid_argument(errorMessage);
+	}
+
+	if (message == NULL)
+	{
+		char* errorMessage = new char[MAX_STR_LEN];
+		sprintf_s(errorMessage, MAX_STR_LEN, "message is null");
+		throw std::invalid_argument(errorMessage);
+	}
+
 	if (!isFriend(user))
 	{
 		std::cout << *this << " cannot send message to " << *user << " " << std::endl;
@@ -256,7 +270,7 @@ void User::viewReceivedMessages()
 #pragma region Overrirdes
 
 /// <summary>
-/// override post defualt print
+/// override User defualt print
 /// </summary>
 /// <param name="stream">default stream</param>
 /// <param name="User"></param>
@@ -269,7 +283,11 @@ std::ostream& operator<<(std::ostream& stream, const User& user)
 
 }
 
-
+/// <summary>
+/// override user equality opreator
+/// </summary>
+/// <param name="user"></param>
+/// <returns>returns true if user id equals current user id</returns>
 bool User::operator==(const User& user)
 {
 	return id == user.id;
