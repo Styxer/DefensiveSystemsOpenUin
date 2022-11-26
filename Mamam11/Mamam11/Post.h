@@ -20,8 +20,7 @@ public:
 	Media* getMedia();
 #pragma endregion
 
-#pragma region Operators 
-	//Post& operator=(const Post& post);	
+#pragma region Operators 	
 	bool operator==(const Post& post);
 	friend std::ostream& operator<<(std::ostream& stream, const Post& post);
 #pragma endregion

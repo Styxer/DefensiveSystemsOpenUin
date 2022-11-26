@@ -8,9 +8,8 @@ constexpr auto MAX_STR_LEN =  300;;
 unsigned long User::nextUserId = 1;
 
 #pragma region Constructors
-/// <summary>
-/// 
-/// </summary>
+
+///
 User::User()
 {
 	char* defaultUserName = new char[MAX_STR_LEN];
@@ -85,6 +84,10 @@ std::list<Post*> User::getPosts()
 
 #pragma region Friend related functions
 
+/// <summary>
+/// add user to its friends list
+/// </summary>
+/// <param name="user">add user to current friends list</param>
 void User::addFriend(User* user)
 {
 	if (user == NULL)
@@ -105,13 +108,14 @@ void User::addFriend(User* user)
 		throw std::invalid_argument(errorMessage);
 	}
 
-	
-
 	user->friends.push_back(id);// add this user to given user's friend list 
-	friends.push_back(user->id);// add  user to this user's friend list 
-	
+	friends.push_back(user->id);// add  user to this user's friend list 	
 }
 
+/// <summary>
+/// remover user from current user friends
+/// </summary>
+/// <param name="user"></param>
 void User::removeFriend(User* user)
 {
 	if (user == NULL)
@@ -138,8 +142,12 @@ void User::removeFriend(User* user)
 	}
 }
 
+/// <summary>
+/// view current user friends post
+/// </summary>
 void User::viewFriendsPosts()
 {
+	//if user have not friends
 	if (friends.empty())
 	{
 		std::cout << *this << " has not friends" << std::endl;
@@ -148,7 +156,7 @@ void User::viewFriendsPosts()
 
 	std::cout << *this << "friends posts" << std::endl;
 
-
+	//prints user friends post in nice formatted string
 	for (auto friendId : friends)
 	{
 		User* usersFriend = us->getUserById(friendId);
@@ -159,6 +167,11 @@ void User::viewFriendsPosts()
 	}
 }
 
+/// <summary>
+/// checks if user is friend with current user friend
+/// </summary>
+/// <param name="user">a suer</param>
+/// <returns>true if user is friend of current user, else returns false</returns>
 bool User::isFriend(User* user)
 {
 	for (auto friendId : friends)
@@ -193,6 +206,11 @@ void User::receiveMessage(Message* message)
 	receivedMsgs.push_back(message);
 }
 
+/// <summary>
+/// send message from user to current user
+/// </summary>
+/// <param name="user">a user</param>
+/// <param name="message">the message the user wants to send</param>
 void User::sendMessage(User* user, Message* message)
 {
 	if (!isFriend(user))
@@ -212,6 +230,9 @@ void User::sendMessage(User* user, Message* message)
 	}
 }
 
+/// <summary>
+/// see all user recvied messages
+/// </summary>
 void User::viewReceivedMessages()
 {
 	if (receivedMsgs.empty())
@@ -234,6 +255,12 @@ void User::viewReceivedMessages()
 
 #pragma region Overrirdes
 
+/// <summary>
+/// override post defualt print
+/// </summary>
+/// <param name="stream">default stream</param>
+/// <param name="User"></param>
+/// <returns>a stream of formatted string User</returns>
 std::ostream& operator<<(std::ostream& stream, const User& user)
 {
 	return stream << "User id:" << user.id 

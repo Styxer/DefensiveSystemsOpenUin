@@ -1,19 +1,9 @@
 #include "Post.h"
 
 #pragma region Constructors
-//Post::Post(std::string text)
-//{
-//	this->_text = text;
-//	this->_media = nullptr;
-//}
-
 Post::Post(std::string text) : _text(text), _media(NULL) {}
 
 Post::Post(std::string text, Media* media) : _text(text), _media(_media) {}
-
-
-
-
 #pragma endregion
 
 #pragma region Getters
@@ -28,21 +18,23 @@ Media* Post::getMedia() {
 #pragma endregion
 
 #pragma region Opreators
-//Post& Post::operator=(const Post& post)
-//{
-//	if (&post != this)
-//	{
-//		Post::Post(post);
-//	}
-//	return *this;
-//}
-
+/// <summary>
+/// override == opreator
+/// </summary>
+/// <param name="post"></param>
+/// <returns>return true if text and media are equals else returns false</returns>
 bool Post::operator==(const Post& post)
 {
 	return _text == post._text
 		&& _media == post._media;
 }
 
+/// <summary>
+/// override post defualt print
+/// </summary>
+/// <param name="stream">default stream</param>
+/// <param name="post"></param>
+/// <returns>a stream of formatted string post</returns>
 std::ostream& operator<<(std::ostream& stream, const Post& post)
 {
 	stream << "Post-->{Text |" << post._text << "|";
@@ -56,8 +48,11 @@ std::ostream& operator<<(std::ostream& stream, const Post& post)
 
 #pragma endregion
 
-
-Post::~Post() 
+/// <summary>
+/// clears post pointers
+/// </summary>
+#pragma region Destructor
+Post::~Post()
 {
 	if (_media != NULL) {
 
@@ -65,6 +60,8 @@ Post::~Post()
 		_media = NULL;
 	}
 }
+#pragma endregion
+
 
 
 
