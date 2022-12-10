@@ -9,6 +9,6 @@ class AppleBasket:
       def __str__(self):
              return f'A basket of {self.apple_quantity} {self.apple_color} apples.'
       
-if __name__ == "__main__":
-      print(AppleBasket("red", 4))
-      print(AppleBasket("blue", 50))
+print(AppleBasket("red", 4))
+print(AppleBasket("blue", 50))
+     

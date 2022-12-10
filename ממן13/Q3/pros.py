@@ -50,9 +50,25 @@ def select_base_class():
             return (base_Class, )
         print("the class does not exist!")
     return () #return some rmpty tuple
+
+
+def exmp_method(self):
+    print("Hello world!")
    
 
 if __name__ == "__main__":
+    #create new classes
    while(input(f'Enter anykey in order to start[enter {stop_button} in order to stop the program]!') != f'{stop_button}'):
+             cls_name = input("Enter new class's name: ")
+             if(classes.get(cls_name) is not None):
+                print("CLASS IS ALREADY DEFINED")
+                continue
+             cls_attr_name = input("Enter new class's attribute's name: ")
+             cls_method_name = input("Enter new class's method's name: ")
+             cls_base = select_base_class() 
+            
+            #creating new class and adding it to the classes container
+             new_cls = type(cls_name, cls_base, {cls_attr_name : 100, cls_method_name : exmp_method})
+             classes[cls_name] = new_cls
 
 

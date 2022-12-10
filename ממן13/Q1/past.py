@@ -1,16 +1,17 @@
 words = ["adopt", "bake", "beam", "cook", "time", "grill", "waved", "hire"]
 
 
-past_tense = []
-for word in words:
-     if word.endswith('e'):
-        past_word = word + 'd'
-     elif not word.endswith('ed'):
-        past_word = word + 'ed'
-     else:
-        past_word  = word
+tense_past = []
 
-     past_tense.append(past_word)
-     
-for past in past_tense:
-    print(past)
+for word in words:
+  if word.endswith("e"):
+    tense_past.append(word + "d")
+  elif word.endswith("ed"):
+    tense_past.append(word)
+  else:
+    tense_past.append(word + "ed")
+
+print(tense_past)
+
+
+print(tense_past)
