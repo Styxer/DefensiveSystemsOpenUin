@@ -7,7 +7,7 @@ class User:
         self._profession = profession
 
 
-#region Professions
+#region Engineers
 class Engineer(User):
     def __init__(self, name, engineer_type):
        super().__init__(name, f"{engineer_type} Engineer")
@@ -38,37 +38,47 @@ class MechanicalEngineer(Engineer):
         super().__init__(name, "Mechanical")
 #endregion
 
-classes = {"User": User, "Engineer" : Engineer, "Technician" : Technician , 
-           "Barber" : Barber,  "Politician" : Politician, "ElectricalEngineer" : ElectricalEngineer  , 
-           "ComputerEngineer" : ComputerEngineer, "MechanicalEngineer" : MechanicalEngineer}
 
-
-def select_base_class():
-    if(input(f'press any key if you want to get the base class? else press {exit_button}') != f'{exit_button}'):
-        base_Class = classes.get(input("Enter the base class name: "))
-        if(base_Class is not None) :
-            return (base_Class, )
-        print("the class does not exist!")
-    return () #return some rmpty tuple
-
-
-def exmp_method(self):
-    print("Hello world!")
-   
+PREDEFINED_CLASSES = [
+    User, Engineer, Technician, Barber, Politician,
+    ElectricalEngineer, ComputerEngineer, MechanicalEngineer
+]
 
 if __name__ == "__main__":
-    #create new classes
-   while(input(f'Enter anykey in order to start[enter {stop_button} in order to stop the program]!') != f'{stop_button}'):
-             cls_name = input("Enter new class's name: ")
-             if(classes.get(cls_name) is not None):
-                print("CLASS IS ALREADY DEFINED")
-                continue
-             cls_attr_name = input("Enter new class's attribute's name: ")
-             cls_method_name = input("Enter new class's method's name: ")
-             cls_base = select_base_class() 
-            
-            #creating new class and adding it to the classes container
-             new_cls = type(cls_name, cls_base, {cls_attr_name : 100, cls_method_name : exmp_method})
-             classes[cls_name] = new_cls
+    # Get input data from user, about the new class to create.
+    new_class_name = input("Please enter the name of new class: ")
+    base_class_name = input("Please enter name of base class (blank if none): ")
 
+    base_class = None
+    for predefined_class in PREDEFINED_CLASSES:
+        # Prevent duplicates
+        if predefined_class.__name__ == new_class_name:
+            print(f"Class with name {new_class_name} already exists.")
+            exit(1)
+        # Look for base class by name
+        if predefined_class.__name__ == base_class_name:
+            base_class = predefined_class
 
+    # None = not found!
+    if base_class is None and base_class_name:
+        print(f"Base class {base_class_name} could not be found!")
+        exit(1)
+
+    # Build class dictionary - holds method & attribute
+    new_method = input(f"Please enter name of new method for class {new_class_name}: ")
+    new_attribute = input(f"Please enter name of new attribute for class {new_class_name}: ")
+
+    # Create the final class
+    bases = (base_class,) if base_class else ()
+
+    dict_for_class = {
+        new_attribute: None,
+        new_method: lambda self: None
+    }
+
+    created_class = type(new_class_name, bases, dict_for_class)
+
+    # Print information
+    print(f'Class {new_class_name} created with base class: {base_class_name}')
+    print(f"Class __name__ is {created_class.__name__}")
+    print(f"Class __dict__ is {created_class.__dict__}")

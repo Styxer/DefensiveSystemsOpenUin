@@ -1,0 +1,1 @@
+fruit.py is copied to this folder just to test the output of meta.py
