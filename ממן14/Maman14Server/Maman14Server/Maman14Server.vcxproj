@@ -129,10 +129,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="Maman14Server.cpp" />
+    <ClCompile Include="SocketHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileHandler.h" />
+    <ClInclude Include="FileWorkModeEnum.h" />
     <ClInclude Include="OPEnum.h" />
     <ClInclude Include="Request.h" />
     <ClInclude Include="Response.h" />

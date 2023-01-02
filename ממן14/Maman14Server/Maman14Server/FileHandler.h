@@ -1,10 +1,11 @@
 #pragma once
 #include <set>
 #include <string>
+#include "FileWorkModeEnum.h"
 
 class FileHandler {
 public:
-	bool OpenFile(const std::string& filePath, std::fstream& fs, bool write = false);
+	bool OpenFile(const std::string& filePath, std::fstream& fs, FileWorkModeEnum write = FileWorkModeEnum::Read);
 	bool CloseFile(std::fstream& fs);
 	bool WriteFile(std::fstream& fs, const uint8_t* const file, const uint32_t bytes);
 	bool ReadFile(std::fstream& fs, uint8_t* const file, uint32_t bytes);
