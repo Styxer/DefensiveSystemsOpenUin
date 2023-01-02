@@ -62,7 +62,7 @@ private:
 	void destroy(Response* response);
 	bool lock(const Request& request);
 	void unlock(const Request& request);
-
+	 
 public:
 	bool handleSocketFromThread(boost::asio::ip::tcp::socket& socket, std::stringstream& error);
 
