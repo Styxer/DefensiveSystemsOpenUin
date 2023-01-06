@@ -30,6 +30,9 @@
     <ClCompile Include="FileHandler.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="ServerLogic.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SocketHandler.h">

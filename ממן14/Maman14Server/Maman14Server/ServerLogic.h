@@ -9,7 +9,9 @@
 
 class ServerLogic {
 public:
-#define SERVER_VERSION 1.0
+	
+	static const int SERVER_VERSION = 1;
+
 #define BACKUP_FOLDER "c:/backup"
 
 	struct Payload
@@ -39,7 +41,7 @@ public:
 		uint8_t* filename;
 		Payload payload;
 		Request() : nameLen(0), filename(nullptr) {}
-		uint32_t sizeWithPayload() const {
+		uint32_t getSizeWithPayload() const {
 			return (sizeof(header) + sizeof(nameLen) + nameLen + sizeof(payload.size));
 		}
 
@@ -50,21 +52,21 @@ private:
 	SocketHandler _socketHandler;
 	std::map<uint32_t, std::atomic<bool>> _userHandling;
 
-	std::string randString(const uint32_t lenght) const;
-	bool userHadFile(const uint32_t userId);
+	std::string createRandomString(const uint32_t lenght) const;
+	bool userHadFiles(const uint32_t userId);
 	bool parseFileName(const uint16_t fileNameLength, const uint8_t* fileName, std::string& parsedFileName);
 	void copyFileName(const Request& request, Response& response);
-	bool handleRequest(const Request& request, Response*& response, bool& responseSent, boost::asio::ip::tcp::socket& socket, std::stringstream& error);
+	bool handleRequest(const Request& request, Response*& response, bool& responseSent, boost::asio::ip::tcp::socket& socket);
 	Request* desrializeRequest(const uint8_t* const buffer, const uint32_t size);
-	void serializeReponse(const Response& response, uint8_t buffer);
-	void destory(uint8_t* ptr);
-	void destroy(Request* request);
-	void destroy(Response* response);
+	void serializeReponse(const Response& response, uint8_t* buffer);
+	void release(uint8_t* ptr);
+	void release(Request* request);
+	void release(Response* response);
 	bool lock(const Request& request);
 	void unlock(const Request& request);
 	 
 public:
-	bool handleSocketFromThread(boost::asio::ip::tcp::socket& socket, std::stringstream& error);
+	bool handleSocketFromThread(boost::asio::ip::tcp::socket& socket);
 
 };
 

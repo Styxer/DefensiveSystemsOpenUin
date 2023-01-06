@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="Maman14Server.cpp" />
+    <ClCompile Include="ServerLogic.cpp" />
     <ClCompile Include="SocketHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
