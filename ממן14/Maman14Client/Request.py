@@ -6,11 +6,11 @@ import struct
 
 class Request:
     def __init__(self):
-        self.userId = Constants.getUserID  # User ID
-        self.version = Constants.CLIENT_VERSIONCLIENT_VER  # Client Version
+        self.userId = Constants.getUserID  
+        self.version = Constants.CLIENT_VERSIONCLIENT_VER  
         self.op = 0  # Request Code
-        self.nameLen = 0  # filename length
-        self.filename = b""  # filename
+        self.fileNameLen = 0  
+        self.fileName = ""
         self.payload = Payload()
 
     def sizeWithoutPayload(self):
@@ -26,12 +26,12 @@ class Request:
                            self.payload.size, self.payload.payload[:leftover])
 
     @staticmethod
-    def getRequest(op, filename=""):
+    def getRequest(op, fileName=""):
         request = Request()
         request.op = op.value
-        request.filename = bytes(filename, 'utf-8')
-        request.nameLen = len(request.filename)  # shouldn't exceed max filename length.
+        request.fileName = bytes(fileName, 'utf-8')
+        request.nameLen = len(request.fileName)  # shouldn't exceed max filename length.
         if request.nameLen > Constants.MAX_NAME_LEN:
-            client.stopClient(f"Filename exceeding length {Constants.MAX_NAME_LEN}! Filename: {filename}")
+            client.stopClient(f"Filename exceeding length {Constants.MAX_NAME_LEN}! Filename: {fileName}")
         return request
         
