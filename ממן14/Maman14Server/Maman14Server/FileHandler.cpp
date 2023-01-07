@@ -136,6 +136,9 @@ bool FileHandler::getFileList(std::string& folederPath, std::set<std::string>& f
 {
 	try
 	{
+		if (!boost::filesystem::is_directory(folederPath) || boost::filesystem::exists(folederPath))
+			boost::filesystem::create_directories(folederPath);
+
 		for (const auto& folderEntry : boost::filesystem::directory_iterator(folederPath))
 		{
 			filesList.insert(folderEntry.path().filename().string());

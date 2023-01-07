@@ -14,9 +14,9 @@ public:
 
 #define BACKUP_FOLDER "c:/backup"
 
-	struct Payload
+	struct Payload  // Common for Request & Response.
 	{
-		uint32_t size;
+		uint32_t size;     // payload size
 		uint8_t* payload;
 		Payload() : size(0), payload(nullptr) {}
 	};
@@ -26,21 +26,17 @@ public:
 #pragma pack(push,1)
 		struct RequestHeader
 		{
-			uint32_t userId;
-			uint8_t version;
-			uint8_t op;
-
+			uint32_t userId;     // User ID
+			uint8_t  version;    // Client Version
+			uint8_t  op;         // Request Code
 			RequestHeader() : userId(0), version(0), op(0) {}
 		};
 #pragma pack(pop)
-
-
-
 		RequestHeader header;
 		uint16_t nameLen; // file name length
-		uint8_t* filename;
+		uint8_t* fileName;
 		Payload payload;
-		Request() : nameLen(0), filename(nullptr) {}
+		Request() : nameLen(0), fileName(nullptr) {}
 		uint32_t getSizeWithPayload() const {
 			return (sizeof(header) + sizeof(nameLen) + nameLen + sizeof(payload.size));
 		}

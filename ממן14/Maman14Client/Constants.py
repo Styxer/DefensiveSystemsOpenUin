@@ -6,7 +6,7 @@ class Constants:
     CLIENT_VERSION = 1
     SERVER_INFO = "server.info"
     BACKUP_INFO = "backup.info" 
-   
+    
 
     @staticmethod
     def getUserID():

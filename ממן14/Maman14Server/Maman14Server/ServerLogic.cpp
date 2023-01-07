@@ -38,9 +38,11 @@ bool ServerLogic::userHadFiles(const uint32_t userId)
 
 	std::stringstream stringStream;
 
-	stringStream << BACKUP_FOLDER << userId;
+	stringStream << BACKUP_FOLDER <<  "/" << userId;
 	auto userBackupFolder = stringStream.str();
 	std::set<std::string> userFies;
+
+
 
 	if (!_fileHandler.getFileList(userBackupFolder, userFies)) return false;
 
@@ -87,16 +89,13 @@ void ServerLogic::copyFileName(const Request& request, Response& response)
 	{
 		response.nameLen = request.nameLen;
 		response.fileName = new uint8_t[request.nameLen];
-		memcpy(response.fileName, request.filename, request.nameLen);
+		memcpy(response.fileName, request.fileName, request.nameLen);
 	}
 	catch (const std::exception& ex)
 	{
 		std::cerr << ex.what() << std::endl;
 	}
 }
-
-
-
 
 /// <summary>
 /// Hand;e the client rquest
@@ -124,7 +123,7 @@ bool ServerLogic::handleRequest(const Request& request, Response*& response, boo
 		if (!userHadFiles(request.header.userId))
 		{
 			std::cerr << "Error :Request from user ID #" << +request.header.userId << +" has no files" << std::endl;
-			response->status = StatusEnum::ERROR_GENERIC;
+			response->status = StatusEnum::ERROR_NO_FILES;
 			return false;
 		}
 	}
@@ -132,7 +131,7 @@ bool ServerLogic::handleRequest(const Request& request, Response*& response, boo
 	std::string parsedFileName;
 	if ((request.header.op & (OPEnum::FILE_BACKUP | OPEnum::FILE_RESTORE | OPEnum::FILE_REMOVE)) == request.header.op)
 	{
-		if (!parseFileName(request.nameLen, request.filename, parsedFileName))
+		if (!parseFileName(request.nameLen, request.fileName, parsedFileName))
 		{
 			std::cerr << "Error : Request  from user ID #" << +request.header.userId << ": Invalid filename!" << std::endl;
 			response->status = StatusEnum::ERROR_GENERIC;
@@ -379,9 +378,9 @@ ServerLogic::Request* ServerLogic::desrializeRequest(const uint8_t* const buffer
 		return request;
 	}
 
-	request->filename = new uint8_t[request->nameLen + 1];
-	memcpy(request->filename, ptr, request->nameLen);
-	request->filename[request->nameLen] = '\0';
+	request->fileName = new uint8_t[request->nameLen + 1];
+	memcpy(request->fileName, ptr, request->nameLen);
+	request->fileName[request->nameLen] = '\0';
 	bytesToRead += request->nameLen;
 	ptr += request->nameLen;
 
@@ -458,7 +457,7 @@ void ServerLogic::release(Request* request)
 {
 	if (request != nullptr)
 	{
-		release(request->filename);
+		release(request->fileName);
 		release(request->payload.payload);
 		delete request;
 		request = nullptr;
@@ -538,7 +537,7 @@ bool ServerLogic::handleSocketFromThread(boost::asio::ip::tcp::socket& socket)
 		if (!responseSent)
 		{
 			serializeReponse(*response, buffer);
-			if (_socketHandler.send(socket, buffer))
+			if (!_socketHandler.send(socket, buffer))
 			{
 				std::cerr << "ServerLogic::handleRequest--> send response failed" << std::endl;
 				release(response);

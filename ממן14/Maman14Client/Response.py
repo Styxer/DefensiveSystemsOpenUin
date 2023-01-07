@@ -1,7 +1,7 @@
 import struct
 from Payload import Payload
 from Constants import Constants
-
+from Status import Status
 
 class Response:
     def __init__(self, data):
@@ -32,11 +32,11 @@ class Response:
         isValid = False
         if self.status is None:
             print("Error: Invalid response received!")
-        elif self.status == self.EStatus.ERROR_GENERIC.value:
+        elif self.status == Status.ERROR_GENERIC.value:
             print(f"Error:Generic Error received! status code {self.status}.")
-        elif self.status == self.EStatus.ERROR_NO_FILES.value:
+        elif self.status == Status.ERROR_NO_FILES.value:
             print(f"Error:Client has no files! status code {self.status}.")
-        elif self.status == self.EStatus.ERROR_NOT_EXIST.value:
+        elif self.status == Status.ERROR_NOT_EXIST.value:
             errStr = "" if (self.fileName is None or self.fileName == "") else f"'{self.fileName}'"
             print(f"Error:Requested File {errStr} doesn't exists! status code {self.status}.")
         elif expected_status.value != self.status:

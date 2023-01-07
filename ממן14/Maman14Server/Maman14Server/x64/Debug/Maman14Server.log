@@ -1,6 +1,1 @@
-﻿  Maman14Server.cpp
-  Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
-  - add -D_WIN32_WINNT=0x0601 to the compiler command line; or
-  - add _WIN32_WINNT=0x0601 to your project's Preprocessor Definitions.
-  Assuming _WIN32_WINNT=0x0601 (i.e. Windows 7 target).
-  Maman14Server.vcxproj -> C:\Users\genni\OneDrive\Desktop\תכנות מערכות דפנסיבי\DefensiveSystemsOpenUin\ממן14\Maman14Server\x64\Debug\Maman14Server.exe
+﻿  Maman14Server.vcxproj -> C:\Users\genni\OneDrive\Desktop\תכנות מערכות דפנסיבי\DefensiveSystemsOpenUin\ממן14\Maman14Server\x64\Debug\Maman14Server.exe
