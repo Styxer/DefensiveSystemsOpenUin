@@ -160,189 +160,189 @@ bool ServerLogic::handleRequest(const Request& request, Response*& response, boo
 	uint8_t buffer[PACKET_SIZE];
 	switch (request.header.op)
 	{
-	case OPEnum::FILE_BACKUP:
-	{
-		std::fstream fs;
-		if (!_fileHandler.OpenFile(filepath, fs, FileWorkModeEnum::Write))
+		case OPEnum::FILE_BACKUP:
 		{
-			std::cerr << "Error: user ID #" << +request.header.userId << ": File " << parsedFileName << " failed to open." << std::endl;
-			return false;
-		}
-		uint32_t bytes = (PACKET_SIZE - request.getSizeWithPayload());
-		if (request.payload.size < bytes)
-			bytes = request.payload.size;
-		if (!_fileHandler.WriteFile(fs, request.payload.payload, bytes))
-		{
-			std::cerr << "Error: user ID #" << +request.header.userId << ": Write to file " << parsedFileName << " failed." << std::endl;
-			fs.close();
-			return false;
-		}
-
-		while (bytes < request.payload.size)
-		{
-			if (!_socketHandler.receive(socket, buffer))
+			std::fstream fs;
+			if (!_fileHandler.OpenFile(filepath, fs, FileWorkModeEnum::Write))
 			{
-				std::cerr << "Error : user ID #" << +request.header.userId << ": receive file data from socket failed." << std::endl;
-				fs.close();
+				std::cerr << "Error: user ID #" << +request.header.userId << ": File " << parsedFileName << " failed to open." << std::endl;
 				return false;
 			}
-			uint32_t length = PACKET_SIZE;
-			if (bytes + PACKET_SIZE > request.payload.size)
-				length = request.payload.size - bytes;
-			if (!_fileHandler.WriteFile(fs, buffer, length))
+			uint32_t bytes = (PACKET_SIZE - request.getSizeWithPayload());
+			if (request.payload.size < bytes)
+				bytes = request.payload.size;
+			if (!_fileHandler.WriteFile(fs, request.payload.payload, bytes))
 			{
 				std::cerr << "Error: user ID #" << +request.header.userId << ": Write to file " << parsedFileName << " failed." << std::endl;
 				fs.close();
 				return false;
 			}
-			bytes += length;
-		}
-		fs.close();
-		response->status = StatusEnum::SUCCESS_BACKUP_DELETE;
-		return true;
-	}
 
-	case OPEnum::FILE_RESTORE:
-	{
-		std::fstream fs;
-		if (!_fileHandler.OpenFile(filepath, fs))
-		{
-			std::cerr << "Error: user ID #" << +request.header.userId << ": File " << parsedFileName << " failed to open." << std::endl;
-			return false;
-		}
-		uint32_t fileSize = _fileHandler.fileSize(fs);
-		if (fileSize == 0)
-		{
-			std::cerr << "Error:user ID #" << +request.header.userId << ": File " << parsedFileName << " has 0 zero." << std::endl;
-			fs.close();
-			return false;
-		}
-		response->payload.size = fileSize;
-		uint32_t bytes = (PACKET_SIZE - response->sizeWithoutPayload());
-		response->payload.payload = new uint8_t[bytes];
-		if (!_fileHandler.ReadFile(fs, response->payload.payload, bytes))
-		{
-			std::cerr << "Error:user ID #" << +request.header.userId << ": File " << parsedFileName << " reading failed." << std::endl;
-			fs.close();
-			return false;
-		}
-		responseSent = true;
-		response->status = StatusEnum::SUCCESS_RESTORE;
-		serializeReponse(*response, buffer);
-		if (!_socketHandler.send(socket, buffer))
-		{
-			std::cerr << "Error:Response sending on socket failed! user ID #" << +request.header.userId << std::endl;
-			fs.close();
-			socket.close();
-			return false;
-		}
-		while (bytes < fileSize)
-		{
-			if (!_fileHandler.ReadFile(fs, buffer, PACKET_SIZE) || !_socketHandler.send(socket, buffer))
+			while (bytes < request.payload.size)
 			{
-				std::cerr << "Error:Payload data failure for user ID #" << +request.header.userId << std::endl;
+				if (!_socketHandler.receive(socket, buffer))
+				{
+					std::cerr << "Error : user ID #" << +request.header.userId << ": receive file data from socket failed." << std::endl;
+					fs.close();
+					return false;
+				}
+				uint32_t length = PACKET_SIZE;
+				if (bytes + PACKET_SIZE > request.payload.size)
+					length = request.payload.size - bytes;
+				if (!_fileHandler.WriteFile(fs, buffer, length))
+				{
+					std::cerr << "Error: user ID #" << +request.header.userId << ": Write to file " << parsedFileName << " failed." << std::endl;
+					fs.close();
+					return false;
+				}
+				bytes += length;
+			}
+			fs.close();
+			response->status = StatusEnum::SUCCESS_BACKUP_DELETE;
+			return true;
+		}
+
+		case OPEnum::FILE_RESTORE:
+		{
+			std::fstream fs;
+			if (!_fileHandler.OpenFile(filepath, fs))
+			{
+				std::cerr << "Error: user ID #" << +request.header.userId << ": File " << parsedFileName << " failed to open." << std::endl;
+				return false;
+			}
+			uint32_t fileSize = _fileHandler.fileSize(fs);
+			if (fileSize == 0)
+			{
+				std::cerr << "Error:user ID #" << +request.header.userId << ": File " << parsedFileName << " has 0 zero." << std::endl;
+				fs.close();
+				return false;
+			}
+			response->payload.size = fileSize;
+			uint32_t bytes = (PACKET_SIZE - response->sizeWithoutPayload());
+			response->payload.payload = new uint8_t[bytes];
+			if (!_fileHandler.ReadFile(fs, response->payload.payload, bytes))
+			{
+				std::cerr << "Error:user ID #" << +request.header.userId << ": File " << parsedFileName << " reading failed." << std::endl;
+				fs.close();
+				return false;
+			}
+			responseSent = true;
+			response->status = StatusEnum::SUCCESS_RESTORE;
+			serializeReponse(*response, buffer);
+			if (!_socketHandler.send(socket, buffer))
+			{
+				std::cerr << "Error:Response sending on socket failed! user ID #" << +request.header.userId << std::endl;
 				fs.close();
 				socket.close();
 				return false;
 			}
-			bytes += PACKET_SIZE;
-		}
-		release(response);
-		fs.close();
-		socket.close();
-		return true;
-	}
-
-	case OPEnum::FILE_REMOVE:
-	{
-		if (!_fileHandler.RemoveFile(filepath))
-		{
-			std::cerr << "Error:Request Error for user ID #" << +request.header.userId << ": File deletion failed!" << std::endl;
-			return false;
-		}
-		response->status = StatusEnum::SUCCESS_BACKUP_DELETE;
-		return true;
-	}
-
-	case OPEnum::FILE_DIR:
-	{
-		std::set<std::string> userFiles;
-		std::string userFolder(userPathStream.str());
-		if (!_fileHandler.getFileList(userFolder, userFiles))
-		{
-			std::cerr << "Error:Request Error for user ID #" << +request.header.userId << ": FILE_DIR generic failure." << std::endl;
-			response->status = StatusEnum::ERROR_GENERIC;
-			return false;		
-		}
-		const size_t filenameLen = 32;
-		response->fileName = new uint8_t[filenameLen];
-		response->nameLen = filenameLen;
-		memcpy(response->fileName, createRandomString(filenameLen).c_str(), filenameLen);
-		response->status = StatusEnum::SUCCESS_DIR;
-
-		size_t listSize = 0;
-		for (const auto& userFile : userFiles)
-		{
-			listSize += userFile.size() + 1;
-		}
-		response->payload.size = listSize;
-		auto const listPtr = new uint8_t[listSize];
-		auto ptr = listPtr;
-		for (const auto& userFile : userFiles)
-		{
-			memcpy(ptr, userFile.c_str(), userFile.size());
-			ptr += userFile.size();
-			*ptr = '\n';
-			ptr += 1;
-		}
-		//// if file names do not exceed PACKET_SIZE.
-		if (response->sizeWithoutPayload() + listSize <= PACKET_SIZE)
-		{
-			response->payload.payload = listPtr;
+			while (bytes < fileSize)
+			{
+				if (!_fileHandler.ReadFile(fs, buffer, PACKET_SIZE) || !_socketHandler.send(socket, buffer))
+				{
+					std::cerr << "Error:Payload data failure for user ID #" << +request.header.userId << std::endl;
+					fs.close();
+					socket.close();
+					return false;
+				}
+				bytes += PACKET_SIZE;
+			}
+			release(response);
+			fs.close();
+			socket.close();
 			return true;
 		}
-		//else split message into smaller chuncks
-		ptr = listPtr;
-		responseSent = true;  
-		uint32_t remaningBytes = PACKET_SIZE - response->sizeWithoutPayload(); 
-		response->payload.payload = new uint8_t[remaningBytes];
-		memcpy(response->payload.payload, ptr, remaningBytes);
-		ptr += remaningBytes;
-		serializeReponse(*response, buffer);
-		if (!_socketHandler.send(socket, buffer))
+
+		case OPEnum::FILE_REMOVE:
 		{
-			std::cerr << "Error:Response sending on socket failed! user ID #" << +request.header.userId << std::endl;
-			release (response);
-			socket.close();
-			return false;
+			if (!_fileHandler.RemoveFile(filepath))
+			{
+				std::cerr << "Error:Request Error for user ID #" << +request.header.userId << ": File deletion failed!" << std::endl;
+				return false;
+			}
+			response->status = StatusEnum::SUCCESS_BACKUP_DELETE;
+			return true;
 		}
-		remaningBytes = PACKET_SIZE;
-		while (remaningBytes < (response->sizeWithoutPayload() + listSize))
+
+		case OPEnum::FILE_DIR:
 		{
-			memcpy(buffer, ptr, PACKET_SIZE);
-			ptr += PACKET_SIZE;
-			remaningBytes += PACKET_SIZE;
+			std::set<std::string> userFiles;
+			std::string userFolder(userPathStream.str());
+			if (!_fileHandler.getFileList(userFolder, userFiles))
+			{
+				std::cerr << "Error:Request Error for user ID #" << +request.header.userId << ": FILE_DIR generic failure." << std::endl;
+				response->status = StatusEnum::ERROR_GENERIC;
+				return false;		
+			}
+			const size_t filenameLen = 32;
+			response->fileName = new uint8_t[filenameLen];
+			response->nameLen = filenameLen;
+			memcpy(response->fileName, createRandomString(filenameLen).c_str(), filenameLen);
+			response->status = StatusEnum::SUCCESS_DIR;
+
+			size_t listSize = 0;
+			for (const auto& userFile : userFiles)
+			{
+				listSize += userFile.size() + 1;
+			}
+			response->payload.size = listSize;
+			auto const listPtr = new uint8_t[listSize];
+			auto ptr = listPtr;
+			for (const auto& userFile : userFiles)
+			{
+				memcpy(ptr, userFile.c_str(), userFile.size());
+				ptr += userFile.size();
+				*ptr = '\n';
+				ptr += 1;
+			}
+			//// if file names do not exceed PACKET_SIZE.
+			if (response->sizeWithoutPayload() + listSize <= PACKET_SIZE)
+			{
+				response->payload.payload = listPtr;
+				return true;
+			}
+			//else split message into smaller chuncks
+			ptr = listPtr;
+			responseSent = true;  
+			uint32_t remaningBytes = PACKET_SIZE - response->sizeWithoutPayload(); 
+			response->payload.payload = new uint8_t[remaningBytes];
+			memcpy(response->payload.payload, ptr, remaningBytes);
+			ptr += remaningBytes;
+			serializeReponse(*response, buffer);
 			if (!_socketHandler.send(socket, buffer))
 			{
-				std::cerr << "Error:Payload data failure for user ID #" << +request.header.userId << std::endl;
-				release(response);
+				std::cerr << "Error:Response sending on socket failed! user ID #" << +request.header.userId << std::endl;
+				release (response);
 				socket.close();
 				return false;
 			}
-			release(response);
-			socket.close();
-			return true;
+			remaningBytes = PACKET_SIZE;
+			while (remaningBytes < (response->sizeWithoutPayload() + listSize))
+			{
+				memcpy(buffer, ptr, PACKET_SIZE);
+				ptr += PACKET_SIZE;
+				remaningBytes += PACKET_SIZE;
+				if (!_socketHandler.send(socket, buffer))
+				{
+					std::cerr << "Error:Payload data failure for user ID #" << +request.header.userId << std::endl;
+					release(response);
+					socket.close();
+					return false;
+				}
+				release(response);
+				socket.close();
+				return true;
+			}
+
+
 		}
 
 
-	}
-
-
-	default:
-	{
-		std::cerr << "Error: Request  for user ID #" << +request.header.userId << ": Invalid request code: " << +request.header.op << std::endl;
-		return true;
-	}
+		default:
+		{
+			std::cerr << "Error: Request  for user ID #" << +request.header.userId << ": Invalid request code: " << +request.header.op << std::endl;
+			return true;
+		}
 	}
 }
 

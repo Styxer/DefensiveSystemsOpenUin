@@ -55,6 +55,31 @@ bool FileHandler::CloseFile(std::fstream& fs)
 }
 
 /// <summary>
+/// writes write files bytes from fstream to file.
+/// </summary>
+/// <param name="fs">file stream to write from.</param>
+/// <param name="file">the file to read from.</param>
+/// <param name="bytes">bytes to write.</param>
+/// <returns>true upon successful write. false otherwise.</returns>
+bool FileHandler::WriteFile(std::fstream& fs, const uint8_t* const file, const uint32_t bytes)
+{
+	try
+	{
+		if (file == nullptr || bytes == 0)
+			return false;
+		fs.write(reinterpret_cast<const char*>(file), bytes);
+		return true;
+	}
+	catch (const std::exception&)
+	{
+		return false;
+	}
+}
+
+
+
+
+/// <summary>
 /// read bytes from stream to file.
 /// </summary>
 /// <param name="fs">file stream to read from</param>
