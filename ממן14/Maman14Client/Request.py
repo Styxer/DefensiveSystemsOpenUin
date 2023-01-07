@@ -1,6 +1,6 @@
 from Constants import Constants;
 from Payload import Payload;
-from Maman14Client import client
+
 import struct
 
 
@@ -29,9 +29,9 @@ class Request:
     def getRequest(op, fileName=""):
         request = Request()
         request.op = op.value
-        request.fileName = bytes(fileName, 'utf-8')
+        request.f = bytes(fileName, 'utf-8')
         request.nameLen = len(request.fileName)  # shouldn't exceed max filename length.
         if request.nameLen > Constants.MAX_NAME_LEN:
-            client.stopClient(f"Filename exceeding length {Constants.MAX_NAME_LEN}! Filename: {fileName}")
+            Constants.stopClient(f"Filename exceeding length {Constants.MAX_NAME_LEN}! Filename: {fileName}")
         return request
         

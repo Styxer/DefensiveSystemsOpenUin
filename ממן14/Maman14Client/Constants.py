@@ -12,6 +12,11 @@ class Constants:
     def getUserID():
         max_uint32 = 0xFFFFFFFF
         return random.randint(1, max_uint32)
+
+    @staticmethod
+    def stopClient(err):  
+        print("\nError:Fatal Error!", err, "Script execution will stop.", sep="\n")
+        exit(1)
         
 
     

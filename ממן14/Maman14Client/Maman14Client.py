@@ -38,11 +38,11 @@ def parseFileList(backupInfo):
 #Send a request for file list from server
 def requestFilesList():
     try:
-        request = Request.getRequest(Request.EOp.FILE_DIR)
-        with Request.initializeSocket() as socket:
-            Request.socketSend(socket, request.pack())
-            response = Response(socket.recv(Constants.PACKET_SIZE))
-            if response.validate(Response.EStatus.SUCCESS_DIR):
+        request = request.getRequest(request.EOp.FILE_DIR)
+        with request.initializeSocket() as socket:
+            request.socketSend(socket, request.pack())
+            response = response(socket.recv(Constants.PACKET_SIZE))
+            if response.validate(response.EStatus.SUCCESS_DIR):
                 bytesRead = len(response.payload.payload)
                 buffer = response.payload.payload
                 while bytesRead < response.payload.size:
@@ -61,18 +61,18 @@ def requestFilesList():
 #Request to backup a file to the server
 def requestFileBackup(fileName):
     try:
-        request = Request.getRequest(Request.EOp.FILE_BACKUP, fileName)
+        request = request.getRequest(request.EOp.FILE_BACKUP, fileName)
         request.payload.size = os.path.getsize(fileName)
         with open(fileName, "rb") as file: # read binary
             request.payload.payload = file.read(Constants.PACKET_SIZE - request.sizeWithoutPayload())
-            with Request.initializeSocket() as socket:
-                Request.socketSend(socket, request.pack())
+            with request.initializeSocket() as socket:
+                request.socketSend(socket, request.pack())
                 payload = file.read(Constants.PACKET_SIZE)
                 while payload:
                     SocketHandler.sendSocket(socket, payload)
                     payload = file.read(Constants.PACKET_SIZE)      
-                response = Response(socket.recv(Constants.PACKET_SIZE))
-        if response.validate(Response.EStatus.SUCCESS_BACKUP_REMOVE):
+                response = response(socket.recv(Constants.PACKET_SIZE))
+        if response.validate(response.EStatus.SUCCESS_BACKUP_REMOVE):
             print(f"File '{fileName}' successfully backed-up. status code {response.status}.")
     except Exception as ex:
         stopClient(f"Error: requestFileBackup Exception: {ex}!")
@@ -80,11 +80,11 @@ def requestFileBackup(fileName):
 # request to restore a file from the server
 def requestFileRestore(filename, restoreTo=""):
     try:
-        request = Request.getRequest(Request.EOp.FILE_RESTORE, filename)
-        with Request.initializeSocket() as socket:
-            Request.socketSend(socket, request.pack())
-            response = Response(socket.recv(Constants.PACKET_SIZE))
-            if response.validate(Response.EStatus.SUCCESS_RESTORE):
+        request = request.getRequest(request.EOp.FILE_RESTORE, filename)
+        with request.initializeSocket() as socket:
+            request.socketSend(socket, request.pack())
+            response = response(socket.recv(Constants.PACKET_SIZE))
+            if response.validate(response.EStatus.SUCCESS_RESTORE):
                 if restoreTo is None:
                     restore_to = response.fileName
                 if response.fileName is None:
@@ -107,11 +107,11 @@ def requestFileRestore(filename, restoreTo=""):
 # request to remove a file from the server 
 def requestFileRemoval(fileName):
     try:
-        request = Request.getRequest(Request.EOp.FILE_DELETE, fileName)
-        with Request.initializeSocket() as socket:
-            Request.socketSend(socket, request.pack())
-            response = Response(socket.recv(Constants.PACKET_SIZE))
-            if response.validate(Response.EStatus.SUCCESS_BACKUP_REMOVE):
+        request = request.getRequest(request.EOp.FILE_DELETE, fileName)
+        with request.initializeSocket() as socket:
+            request.socketSend(socket, request.pack())
+            response = response(socket.recv(Constants.PACKET_SIZE))
+            if response.validate(response.EStatus.SUCCESS_BACKUP_REMOVE):
                 print(f"File '{fileName}' successfully removed. status code {response.status}.")
 
     except Exception as ex:
