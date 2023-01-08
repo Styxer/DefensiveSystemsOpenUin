@@ -39,7 +39,7 @@ class Response:
         elif self.status == Status.ERROR_NO_FILES.value:
             print(f"Client has no files! status code {self.status}.")
         elif self.status == Status.ERROR_NOT_EXIST.value:
-            tmp_str = "" if (self.filename is None or self.filename == "") else f"'{self.filename}'"
+            tmp_str = "" if (self.fileName is None or self.fileName == "") else f"'{self.fileName}'"
             print(f"Requested File {tmp_str} doesn't exists! status code {self.status}.")
         elif expected_status.value != self.status:
             print(f"Unexpected server response {self.status}!")

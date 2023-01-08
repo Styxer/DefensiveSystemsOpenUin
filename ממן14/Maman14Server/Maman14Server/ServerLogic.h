@@ -6,11 +6,12 @@
 #include <map>
 #include <atomic>
 #include <boost/asio/ip/tcp.hpp>
+#include <boost/units/base_units/information/byte.hpp>
 
 class ServerLogic {
 public:
 	
-	static const int SERVER_VERSION = 1;
+	static constexpr BYTE SERVER_VERSION = 1;
 
 #define BACKUP_FOLDER "c:/backup"
 

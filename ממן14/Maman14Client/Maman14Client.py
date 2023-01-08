@@ -111,7 +111,7 @@ def requestFileRestore(filename, restoreTo=""):
                     file.write(data[:dataLen])                    
                     bytesRead += dataLen
                 file.close()        
-                print(f"File '{response.fileName}' successfully restored within {restoreTo}. status code {response.status}.")  
+                print(f"File '{response.fileName}' successfully restored to {restoreTo}. status code {response.status}.")  
             
     except Exception as ex:
         print(f"Error:requestFileRestore error! Exception: {ex}")
@@ -121,12 +121,12 @@ def requestFileRestore(filename, restoreTo=""):
 # request to remove a file from the server 
 def requestFileRemoval(fileName):
     try:
-        request = Request.getRequest(Request.EOp.FILE_DELETE, fileName)
-        with Request.initializeSocket() as socket:
-            Request.socketSend(request.pack())
-            response = response(socket.recv(Constants.PACKET_SIZE))
-            if response.validate(response.EStatus.SUCCESS_BACKUP_REMOVE):
-                print(f"File '{fileName}' successfully removed. status code {response.status}.")
+        request = Request.getRequest(Op.FILE_DELETE, userID, fileName)
+        SocketHandler.initializeSocket(server, port)
+        SocketHandler.sendSocket(request.pack())
+        response = Response(SocketHandler.reciveData(Constants.PACKET_SIZE))
+        if response.validate(Status.SUCCESS_BACKUP_REMOVE):
+            print(f"File '{fileName}' successfully removed. status code {response.status}.")
 
     except Exception as ex:
         print(f"Error:requestFileRemoval error! Exception: {ex}")
