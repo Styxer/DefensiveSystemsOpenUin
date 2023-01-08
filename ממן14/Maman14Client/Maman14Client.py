@@ -80,7 +80,7 @@ def requestFileBackup(fileName):
 
             x = SocketHandler.reciveData(Constants.PACKET_SIZE)   
             response = Response(x)
-        if response.validate(response.EStatus.SUCCESS_BACKUP_REMOVE):
+        if response.validate(Status.SUCCESS_BACKUP_REMOVE):
             print(f"File '{fileName}' successfully backed-up. status code {response.status}.")
     except Exception as ex:
         stopClient(f"Error: requestFileBackup Exception: {ex}!")

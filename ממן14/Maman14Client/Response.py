@@ -10,12 +10,13 @@ class Response:
         self.FileNameLen = 0
         self.fileName = None 
         self.payload = Payload()
-        try:
-            self.version, self.status, self.FileNameLen = struct.unpack("<BHH", data[:5])
+
+        try:  
+            self.version, self.status, self.nameLen = struct.unpack("<BHH", data[:5])
             offset = 5
-            self.fileName = struct.unpack(f"<{self.FileNameLen}s", data[offset:offset + self.FileNameLen])
-            self.fileName = self.fileName[0].decode('utf-8')
-            offset += self.FileNameLen
+            self.filename = struct.unpack(f"<{self.nameLen}s", data[offset:offset + self.nameLen])
+            self.filename = self.filename[0].decode('utf-8')
+            offset += self.nameLen
             self.payload.size = struct.unpack("<I", data[offset:offset + 4])
             self.payload.size = self.payload.size[0]
             offset += 4
@@ -24,23 +25,24 @@ class Response:
                 leftover = self.payload.size
             self.payload.payload = struct.unpack(f"<{leftover}s", data[offset:offset + leftover])
             self.payload.payload = self.payload.payload[0]
-        except Exception as ex:
-            print(ex)
+        except Exception as e:
+            print(e)
 
     #Validates response status
     def validate(self, expected_status):
+        """ Validate response status """
         isValid = False
         if self.status is None:
-            print("Error: Invalid response received!")
+            print("Invalid response received!")
         elif self.status == Status.ERROR_GENERIC.value:
-            print(f"Error:Generic Error received! status code {self.status}.")
+            print(f"Generic Error received! status code {self.status}.")
         elif self.status == Status.ERROR_NO_FILES.value:
-            print(f"Error:Client has no files! status code {self.status}.")
+            print(f"Client has no files! status code {self.status}.")
         elif self.status == Status.ERROR_NOT_EXIST.value:
-            errStr = "" if (self.fileName is None or self.fileName == "") else f"'{self.fileName}'"
-            print(f"Error:Requested File {errStr} doesn't exists! status code {self.status}.")
+            tmp_str = "" if (self.filename is None or self.filename == "") else f"'{self.filename}'"
+            print(f"Requested File {tmp_str} doesn't exists! status code {self.status}.")
         elif expected_status.value != self.status:
-            print(f"Error:Unexpected server response {self.status}!")
+            print(f"Unexpected server response {self.status}!")
         else:
             isValid = True
         return isValid

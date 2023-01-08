@@ -53,8 +53,8 @@ private:
 	bool parseFileName(const uint16_t fileNameLength, const uint8_t* fileName, std::string& parsedFileName);
 	void copyFileName(const Request& request, Response& response);
 	bool handleRequest(const Request& request, Response*& response, bool& responseSent, boost::asio::ip::tcp::socket& socket);
-	Request* desrializeRequest(const uint8_t* const buffer, const uint32_t size);
-	void serializeReponse(const Response& response, uint8_t* buffer);
+	Request* deserializeRequest(const uint8_t* const buffer, const uint32_t size);
+	void serializeResponse(const Response& response, uint8_t* buffer);
 	void release(uint8_t* ptr);
 	void release(Request* request);
 	void release(Response* response);

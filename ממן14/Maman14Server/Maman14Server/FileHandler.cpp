@@ -11,7 +11,7 @@
 /// </summary>
 /// <param name="filePath">path to file to open</param>
 /// <param name="fs">stream for file path to be opened</param>
-/// <param name="FileWorkModeEnum">how to open file</param>
+/// <param name="fileWorkMode">how to open file</param>
 /// <returns>true if opened successfully. false otherwise.</returns>
 bool FileHandler::OpenFile(const std::string& filePath, std::fstream& fs, FileWorkModeEnum fileWorkMode)
 {
@@ -22,8 +22,8 @@ bool FileHandler::OpenFile(const std::string& filePath, std::fstream& fs, FileWo
 
 		boost::filesystem::create_directories(boost::filesystem::path(filePath).parent_path());
 		const auto flag = fileWorkMode  == FileWorkModeEnum::Write ?
-			(std::fstream::binary || std::fstream::out) :
-			(std::fstream::binary || std::fstream::in);
+			(std::fstream::binary | std::fstream::out) :
+			(std::fstream::binary | std::fstream::in);
 
 		fs.open(filePath, flag);
 		return fs.is_open();

@@ -104,8 +104,7 @@ void ServerLogic::copyFileName(const Request& request, Response& response)
 /// <param name="response">the resposne to the request</param>
 /// <param name="responseSent">the response to the request that was sent to the server</param>
 /// <param name="socket">the connected socket</param>
-/// <param name="error">description error if applicate</param>
-/// <returns>true if no error occurred.flase otherwise</returns>
+/// <returns>true if no error occurred.false otherwise</returns>
 bool ServerLogic::handleRequest(const Request& request, Response*& response, bool& responseSent, boost::asio::ip::tcp::socket& socket)
 {
 	responseSent = false;
@@ -141,7 +140,7 @@ bool ServerLogic::handleRequest(const Request& request, Response*& response, boo
 	}
 
 	std::stringstream userPathStream, filepathStream;
-	userPathStream << BACKUP_FOLDER << request.header.userId << "/";
+	userPathStream << BACKUP_FOLDER <<  "/" << request.header.userId << "/";
 	filepathStream << userPathStream.str() << parsedFileName;
 	const std::string filepath = filepathStream.str();
 	//  validation for FILE_RESTORE | FILE_REMOVE requests.
@@ -227,7 +226,7 @@ bool ServerLogic::handleRequest(const Request& request, Response*& response, boo
 			}
 			responseSent = true;
 			response->status = StatusEnum::SUCCESS_RESTORE;
-			serializeReponse(*response, buffer);
+			serializeResponse(*response, buffer);
 			if (!_socketHandler.send(socket, buffer))
 			{
 				std::cerr << "Error:Response sending on socket failed! user ID #" << +request.header.userId << std::endl;
@@ -273,20 +272,20 @@ bool ServerLogic::handleRequest(const Request& request, Response*& response, boo
 				response->status = StatusEnum::ERROR_GENERIC;
 				return false;		
 			}
-			const size_t filenameLen = 32;
-			response->fileName = new uint8_t[filenameLen];
-			response->nameLen = filenameLen;
-			memcpy(response->fileName, createRandomString(filenameLen).c_str(), filenameLen);
+			constexpr size_t filename_len = 32;
+			response->fileName = new uint8_t[filename_len];
+			response->nameLen = filename_len;
+			memcpy(response->fileName, createRandomString(filename_len).c_str(), filename_len);
 			response->status = StatusEnum::SUCCESS_DIR;
 
-			size_t listSize = 0;
+			uint32_t listSize = 0;
 			for (const auto& userFile : userFiles)
 			{
 				listSize += userFile.size() + 1;
 			}
 			response->payload.size = listSize;
-			auto const listPtr = new uint8_t[listSize];
-			auto ptr = listPtr;
+			auto const list_ptr = new uint8_t[listSize];
+			auto ptr = list_ptr;
 			for (const auto& userFile : userFiles)
 			{
 				memcpy(ptr, userFile.c_str(), userFile.size());
@@ -297,17 +296,17 @@ bool ServerLogic::handleRequest(const Request& request, Response*& response, boo
 			//// if file names do not exceed PACKET_SIZE.
 			if (response->sizeWithoutPayload() + listSize <= PACKET_SIZE)
 			{
-				response->payload.payload = listPtr;
+				response->payload.payload = list_ptr;
 				return true;
 			}
 			//else split message into smaller chuncks
-			ptr = listPtr;
+			ptr = list_ptr;
 			responseSent = true;  
 			uint32_t remaningBytes = PACKET_SIZE - response->sizeWithoutPayload(); 
 			response->payload.payload = new uint8_t[remaningBytes];
 			memcpy(response->payload.payload, ptr, remaningBytes);
 			ptr += remaningBytes;
-			serializeReponse(*response, buffer);
+			serializeResponse(*response, buffer);
 			if (!_socketHandler.send(socket, buffer))
 			{
 				std::cerr << "Error:Response sending on socket failed! user ID #" << +request.header.userId << std::endl;
@@ -332,11 +331,7 @@ bool ServerLogic::handleRequest(const Request& request, Response*& response, boo
 				socket.close();
 				return true;
 			}
-
-
 		}
-
-
 		default:
 		{
 			std::cerr << "Error: Request  for user ID #" << +request.header.userId << ": Invalid request code: " << +request.header.op << std::endl;
@@ -351,7 +346,7 @@ bool ServerLogic::handleRequest(const Request& request, Response*& response, boo
 /// <param name="buffer">buffer of the data</param>
 /// <param name="size">size of the data</param>
 /// <returns>a Request</returns>
-ServerLogic::Request* ServerLogic::desrializeRequest(const uint8_t* const buffer, const uint32_t size)
+ServerLogic::Request* ServerLogic::deserializeRequest(const uint8_t* const buffer, const uint32_t size)
 {
 	uint32_t bytesToRead = 0;
 	const uint8_t* ptr = buffer;
@@ -411,16 +406,16 @@ ServerLogic::Request* ServerLogic::desrializeRequest(const uint8_t* const buffer
 /// <summary>
 /// serialize response to raw data
 /// </summary>
-/// <param name="response">a responseparam>
+/// <param name="response">a response param>
 /// <param name="buffer">the buffer data</param>
-void ServerLogic::serializeReponse(const Response& response, uint8_t* buffer)
+void ServerLogic::serializeResponse(const Response& response, uint8_t* buffer)
 {
 	uint8_t* ptr = buffer;
 	uint32_t size = (PACKET_SIZE - response.sizeWithoutPayload());
 	if (response.payload.size < size)
 		size = response.payload.size;
 
-	//copy the memorey of all response properties to buffer
+	//copy the memory of all response properties to buffer
 	memcpy(ptr, &(response.version), sizeof(response.version));
 	ptr += sizeof(response.version);
 	memcpy(ptr, &(response.status), sizeof(response.status));
@@ -527,7 +522,7 @@ bool ServerLogic::handleSocketFromThread(boost::asio::ip::tcp::socket& socket)
 			return false;
 		}
 
-		request = desrializeRequest(buffer, PACKET_SIZE);
+		request = deserializeRequest(buffer, PACKET_SIZE);
 		while (!lock(*request)) //if server is busy with the same user
 		{
 			std::this_thread::sleep_for(std::chrono::seconds(5)); //TODO: change to more "normal" busy-wait pattern
@@ -536,7 +531,7 @@ bool ServerLogic::handleSocketFromThread(boost::asio::ip::tcp::socket& socket)
 
 		if (!responseSent)
 		{
-			serializeReponse(*response, buffer);
+			serializeResponse(*response, buffer);
 			if (!_socketHandler.send(socket, buffer))
 			{
 				std::cerr << "ServerLogic::handleRequest--> send response failed" << std::endl;
