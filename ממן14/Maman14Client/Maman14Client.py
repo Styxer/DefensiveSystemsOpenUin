@@ -90,29 +90,33 @@ def requestFileBackup(fileName):
 # request to restore a file from the server
 def requestFileRestore(filename, restoreTo=""):
     try:
-        request = Request.getRequest(request.EOp.FILE_RESTORE, filename)
-        with Request.initializeSocket() as socket:
-            Request.socketSend(socket, Request.pack())
-            response = response(socket.recv(Constants.PACKET_SIZE))
-            if response.validate(response.EStatus.SUCCESS_RESTORE):
-                if restoreTo is None:
-                    restoreTo = response.fileName
-                if response.fileName is None:
-                    print(f"Error: Restore Error. Invalid filename. status code {response.status}.")
-                else:
-                    file = open(restoreTo, "wb")#write binary
-                    bytesRead = len(response.payload.payload)
-                    file.write(response.payload.payload)
-                    while bytesRead < response.payload.size:
-                        data = socket.recv(Constants.PACKET_SIZE)
-                        dataLen = len(data)
-                        if dataLen + bytesRead > response.payload.size:
-                            dataLen = response.payload.size - bytesRead
-                        file.write(data[:dataLen])
-                        bytesRead += dataLen
-        print(f"File '{response.filename}' successfully restored within {restoreTo}. status code {response.status}.")                          
+        request = Request.getRequest(Op.FILE_RESTORE, userID, filename)
+        SocketHandler.initializeSocket(server, port)          
+        SocketHandler.sendSocket(request.pack())
+        response = Response(SocketHandler.reciveData(Constants.PACKET_SIZE))
+        if response.validate(Status.SUCCESS_RESTORE):
+            if restoreTo is None:
+                restoreTo = response.fileName
+            if response.fileName is None:
+                print(f"Error: Restore Error. Invalid filename. status code {response.status}.")
+            else:
+                file = open(restoreTo, "wb")#write binary
+                bytesRead = len(response.payload.payload)
+                file.write(response.payload.payload)
+                while bytesRead < response.payload.size:
+                    data = SocketHandler.reciveData(Constants.PACKET_SIZE)
+                    dataLen = len(data)
+                    if dataLen + bytesRead > response.payload.size:
+                        dataLen = response.payload.size - bytesRead
+                    file.write(data[:dataLen])                    
+                    bytesRead += dataLen
+                file.close()        
+                print(f"File '{response.fileName}' successfully restored within {restoreTo}. status code {response.status}.")  
+            
     except Exception as ex:
         print(f"Error:requestFileRestore error! Exception: {ex}")
+    finally:
+        SocketHandler.closeSocket()
 
 # request to remove a file from the server 
 def requestFileRemoval(fileName):
@@ -126,6 +130,8 @@ def requestFileRemoval(fileName):
 
     except Exception as ex:
         print(f"Error:requestFileRemoval error! Exception: {ex}")
+    finally:
+        SocketHandler.closeSocket()
 
 
 if __name__ == '__main__':

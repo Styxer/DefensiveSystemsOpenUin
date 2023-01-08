@@ -14,8 +14,8 @@ class Response:
         try:  
             self.version, self.status, self.nameLen = struct.unpack("<BHH", data[:5])
             offset = 5
-            self.filename = struct.unpack(f"<{self.nameLen}s", data[offset:offset + self.nameLen])
-            self.filename = self.filename[0].decode('utf-8')
+            self.fileName = struct.unpack(f"<{self.nameLen}s", data[offset:offset + self.nameLen])
+            self.fileName = self.fileName[0].decode('utf-8')
             offset += self.nameLen
             self.payload.size = struct.unpack("<I", data[offset:offset + 4])
             self.payload.size = self.payload.size[0]
