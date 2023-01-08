@@ -5,8 +5,8 @@ import struct
 
 
 class Request:
-    def __init__(self):
-        self.userId = Constants.getUserID() 
+    def __init__(self, userId):
+        self.userId = userId 
         self.version = Constants.CLIENT_VERSION  
         self.op = 0  # Request Code
         self.fileNameLen = 0  
@@ -31,8 +31,8 @@ class Request:
 
     #Initialize a request with Request Code and filename
     @staticmethod
-    def getRequest(op, fileName=""):
-        request = Request()
+    def getRequest(op, userId, fileName="", ):
+        request = Request(userId)
         request.op = op.value
         request.fileName = bytes(fileName, 'utf-8')
         request.fileNameLen = len(request.fileName)  # shouldn't exceed max filename length.
