@@ -1,4 +1,7 @@
-﻿  Maman14Server.cpp
+﻿  FileHandler.cpp
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\include\filesystem(13): warning STL4038: The contents of <filesystem> are available only with C++17 or later.
+C:\Users\genni\OneDrive\Desktop\תכנות מערכות דפנסיבי\DefensiveSystemsOpenUin\ממן14\Maman14Server\Maman14Server\FileHandler.cpp(114,38): warning C4293: '>>': shift count negative or too big, undefined behavior
+  Maman14Server.cpp
   Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
   - add -D_WIN32_WINNT=0x0601 to the compiler command line; or
   - add _WIN32_WINNT=0x0601 to your project's Preprocessor Definitions.
@@ -8,6 +11,11 @@
   - add -D_WIN32_WINNT=0x0601 to the compiler command line; or
   - add _WIN32_WINNT=0x0601 to your project's Preprocessor Definitions.
   Assuming _WIN32_WINNT=0x0601 (i.e. Windows 7 target).
-C:\Users\genni\OneDrive\Desktop\תכנות מערכות דפנסיבי\DefensiveSystemsOpenUin\ממן14\Maman14Server\Maman14Server\ServerLogic.cpp(284,33): warning C4267: '+=': conversion from 'size_t' to 'uint32_t', possible loss of data
+C:\Users\genni\OneDrive\Desktop\תכנות מערכות דפנסיבי\DefensiveSystemsOpenUin\ממן14\Maman14Server\Maman14Server\ServerLogic.cpp(282,33): warning C4267: '+=': conversion from 'size_t' to 'uint32_t', possible loss of data
+  SocketHandler.cpp
+  Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
+  - add -D_WIN32_WINNT=0x0601 to the compiler command line; or
+  - add _WIN32_WINNT=0x0601 to your project's Preprocessor Definitions.
+  Assuming _WIN32_WINNT=0x0601 (i.e. Windows 7 target).
   Generating Code...
   Maman14Server.vcxproj -> C:\Users\genni\OneDrive\Desktop\תכנות מערכות דפנסיבי\DefensiveSystemsOpenUin\ממן14\Maman14Server\x64\Debug\Maman14Server.exe

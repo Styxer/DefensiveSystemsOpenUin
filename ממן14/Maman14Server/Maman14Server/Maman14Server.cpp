@@ -4,13 +4,11 @@
 #include <boost/asio.hpp>
 
 static ServerLogic serverLogic;
-static const uint16_t port = 8080;
-
-
+static constexpr uint16_t port = 8080;
 
 void listeningOn(boost::asio::io_context&, boost::asio::ip::tcp::endpoint ep)
 {
-	std::cout << "Litsening on " << ep.address() << " port " << ep.port() << "\n";
+	std::cout << "Listening on " << ep.address() << " port " << ep.port() << "\n";
 }
 
 void handleRequest(boost::asio::ip::tcp::socket socket)

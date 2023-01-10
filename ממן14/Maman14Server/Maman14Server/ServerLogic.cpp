@@ -11,11 +11,11 @@
 /// <summary>
 /// genrate a random string based on a given length
 /// </summary>
-/// <param name="lenght">string length</param>
+/// <param name="length">string length</param>
 /// <returns>the genreated string</returns>
 /// 
 /// based on answer from https://stackoverflow.com/questions/47977829/generate-a-random-string-in-c11
-std::string ServerLogic::createRandomString(const uint32_t lenght) const
+std::string ServerLogic::createRandomString(const uint32_t length)
 {
 	std::string str("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
 
@@ -24,7 +24,7 @@ std::string ServerLogic::createRandomString(const uint32_t lenght) const
 
 	std::shuffle(str.begin(), str.end(), generator);
 
-	return str.substr(0, lenght);
+	return str.substr(0, length);
 }
 
 /// <summary>
@@ -32,21 +32,19 @@ std::string ServerLogic::createRandomString(const uint32_t lenght) const
 /// </summary>
 /// <param name="userId">the user id</param>
 /// <returns>true if the user has any files.flase otherwise</returns>
-bool ServerLogic::userHadFiles(const uint32_t userId)
+bool ServerLogic::userHadFiles(const uint32_t userId) const
 {
 	if (userId == 0) return false;
 
 	std::stringstream stringStream;
 
 	stringStream << BACKUP_FOLDER <<  "/" << userId;
-	auto userBackupFolder = stringStream.str();
-	std::set<std::string> userFies;
+	const auto userBackupFolder = stringStream.str();
+	std::set<std::string> userFiles;
 
+	if (!_fileHandler.getFileList(userBackupFolder, userFiles)) return false;
 
-
-	if (!_fileHandler.getFileList(userBackupFolder, userFies)) return false;
-
-	return !userFies.empty();
+	return !userFiles.empty();
 }
 
 /// <summary>
@@ -62,7 +60,7 @@ bool ServerLogic::parseFileName(const uint16_t fileNameLength, const uint8_t* fi
 
 	try
 	{
-		auto str = new char[fileNameLength + 1];
+		const auto str = new char[fileNameLength + 1];
 		memcpy(str, fileName, fileNameLength);
 		str[fileNameLength] = '\0';
 		parsedFileName = str;
@@ -302,10 +300,10 @@ bool ServerLogic::handleRequest(const Request& request, Response*& response, boo
 			//else split message into smaller chuncks
 			ptr = list_ptr;
 			responseSent = true;  
-			uint32_t remaningBytes = PACKET_SIZE - response->sizeWithoutPayload(); 
-			response->payload.payload = new uint8_t[remaningBytes];
-			memcpy(response->payload.payload, ptr, remaningBytes);
-			ptr += remaningBytes;
+			uint32_t remainingBytes = PACKET_SIZE - response->sizeWithoutPayload(); 
+			response->payload.payload = new uint8_t[remainingBytes];
+			memcpy(response->payload.payload, ptr, remainingBytes);
+			ptr += remainingBytes;
 			serializeResponse(*response, buffer);
 			if (!_socketHandler.send(socket, buffer))
 			{
@@ -314,12 +312,12 @@ bool ServerLogic::handleRequest(const Request& request, Response*& response, boo
 				socket.close();
 				return false;
 			}
-			remaningBytes = PACKET_SIZE;
-			while (remaningBytes < (response->sizeWithoutPayload() + listSize))
+			remainingBytes = PACKET_SIZE;
+			while (remainingBytes < (response->sizeWithoutPayload() + listSize))
 			{
 				memcpy(buffer, ptr, PACKET_SIZE);
 				ptr += PACKET_SIZE;
-				remaningBytes += PACKET_SIZE;
+				remainingBytes += PACKET_SIZE;
 				if (!_socketHandler.send(socket, buffer))
 				{
 					std::cerr << "Error:Payload data failure for user ID #" << +request.header.userId << std::endl;
@@ -431,11 +429,11 @@ void ServerLogic::serializeResponse(const Response& response, uint8_t* buffer)
 
 
 /// <summary>
-/// releases the memorey 
+/// releases the memory 
 /// </summary>
 /// <param name="ptr">the ptr</param>
 /// 
-void ServerLogic::release(uint8_t* ptr)
+void ServerLogic::release(const uint8_t* ptr)
 {
 	if (ptr != nullptr)
 	{
@@ -445,10 +443,10 @@ void ServerLogic::release(uint8_t* ptr)
 }
 
 /// <summary>
-/// releases the memorey of the sent request
+/// releases the memory of the sent request
 /// </summary>
 /// <param name="request">the request</param>
-void ServerLogic::release(Request* request)
+void ServerLogic::release(const Request* request) const
 {
 	if (request != nullptr)
 	{
@@ -463,7 +461,7 @@ void ServerLogic::release(Request* request)
 /// release the memorey of current response
 /// </summary>
 /// <param name="response">current response</param>
-void ServerLogic::release(Response* response)
+void ServerLogic::release(const Response* response) const
 {
 	if (response != nullptr)
 	{
@@ -500,8 +498,6 @@ void ServerLogic::unlock(const Request& request)
 	_userHandling[request.header.userId] = false;
 }
 
-
-
 /// <summary>
 /// handle socket at thread
 /// </summary>
@@ -512,7 +508,6 @@ bool ServerLogic::handleSocketFromThread(boost::asio::ip::tcp::socket& socket)
 	try
 	{
 		uint8_t buffer[PACKET_SIZE];
-		Request* request;
 		Response* response;
 		bool responseSent;
 
@@ -522,7 +517,7 @@ bool ServerLogic::handleSocketFromThread(boost::asio::ip::tcp::socket& socket)
 			return false;
 		}
 
-		request = deserializeRequest(buffer, PACKET_SIZE);
+		const Request* request = deserializeRequest(buffer, PACKET_SIZE);
 		while (!lock(*request)) //if server is busy with the same user
 		{
 			std::this_thread::sleep_for(std::chrono::seconds(5)); //TODO: change to more "normal" busy-wait pattern

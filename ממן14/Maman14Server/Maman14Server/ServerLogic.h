@@ -49,16 +49,16 @@ private:
 	SocketHandler _socketHandler;
 	std::map<uint32_t, std::atomic<bool>> _userHandling;
 
-	std::string createRandomString(const uint32_t lenght) const;
-	bool userHadFiles(const uint32_t userId);
-	bool parseFileName(const uint16_t fileNameLength, const uint8_t* fileName, std::string& parsedFileName);
-	void copyFileName(const Request& request, Response& response);
+	static std::string createRandomString(const uint32_t length);
+	bool userHadFiles(const uint32_t userId) const;
+	static bool parseFileName(const uint16_t fileNameLength, const uint8_t* fileName, std::string& parsedFileName);
+	static void copyFileName(const Request& request, Response& response);
 	bool handleRequest(const Request& request, Response*& response, bool& responseSent, boost::asio::ip::tcp::socket& socket);
-	Request* deserializeRequest(const uint8_t* const buffer, const uint32_t size);
-	void serializeResponse(const Response& response, uint8_t* buffer);
-	void release(uint8_t* ptr);
-	void release(Request* request);
-	void release(Response* response);
+	static Request* deserializeRequest(const uint8_t* const buffer, const uint32_t size);
+	static void serializeResponse(const Response& response, uint8_t* buffer);
+	static void release(const uint8_t* ptr);
+	void release(const Request* request) const;
+	void release(const Response* response) const;
 	bool lock(const Request& request);
 	void unlock(const Request& request);
 	 

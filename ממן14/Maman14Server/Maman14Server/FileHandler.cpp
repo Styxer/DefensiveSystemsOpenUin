@@ -13,7 +13,7 @@
 /// <param name="fs">stream for file path to be opened</param>
 /// <param name="fileWorkMode">how to open file</param>
 /// <returns>true if opened successfully. false otherwise.</returns>
-bool FileHandler::OpenFile(const std::string& filePath, std::fstream& fs, FileWorkModeEnum fileWorkMode)
+bool FileHandler::OpenFile(const std::string& filePath, std::fstream& fs, FileWorkModeEnum fileWorkMode) const
 {
 	try
 	{
@@ -70,15 +70,12 @@ bool FileHandler::WriteFile(std::fstream& fs, const uint8_t* const file, const u
 		fs.write(reinterpret_cast<const char*>(file), bytes);
 		return true;
 	}
-	catch (const std::exception&)
+	catch (const std::exception& ex)
 	{
+		std::cerr << ex.what() << std::endl;
 		return false;
 	}
 }
-
-
-
-
 /// <summary>
 /// read bytes from stream to file.
 /// </summary>
@@ -129,17 +126,17 @@ uint32_t FileHandler::fileSize(std::fstream& fs)
 /// <summary>
 /// Get the list of file names in a given folder
 /// </summary>
-/// <param name="folederPath">folder to read from</param>
+/// <param name="folderPath">folder to read from</param>
 /// <param name="filesList">the list to append the file names to</param>
 /// <returns>returns true if the list is valid. false otherwise</returns>
-bool FileHandler::getFileList(std::string& folederPath, std::set<std::string>& filesList)
+bool FileHandler::getFileList(const std::string& folderPath, std::set<std::string>& filesList) const
 {
 	try
 	{
-		if (!boost::filesystem::is_directory(folederPath) || boost::filesystem::exists(folederPath))
-			boost::filesystem::create_directories(folederPath);
+		if (!boost::filesystem::is_directory(folderPath) || boost::filesystem::exists(folderPath))
+			boost::filesystem::create_directories(folderPath);
 
-		for (const auto& folderEntry : boost::filesystem::directory_iterator(folederPath))
+		for (const auto& folderEntry : boost::filesystem::directory_iterator(folderPath))
 		{
 			filesList.insert(folderEntry.path().filename().string());
 		}
@@ -175,7 +172,7 @@ bool FileHandler::isFileExists(const std::string& filePath)
 	}
 }
 
-bool FileHandler::RemoveFile(const std::string& filePath)
+bool FileHandler::RemoveFile(const std::string& filePath) const
 {
 	try
 	{
