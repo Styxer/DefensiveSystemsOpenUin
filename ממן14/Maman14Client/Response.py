@@ -3,15 +3,16 @@ from Payload import Payload
 from Constants import Constants
 from Status import Status
 
+
 class Response:
     def __init__(self, data):
         self.version = 0
         self.status = 0
         self.FileNameLen = 0
-        self.fileName = None 
+        self.fileName = None
         self.payload = Payload()
 
-        try:  
+        try:
             self.version, self.status, self.nameLen = struct.unpack("<BHH", data[:5])
             offset = 5
             self.fileName = struct.unpack(f"<{self.nameLen}s", data[offset:offset + self.nameLen])
@@ -28,7 +29,7 @@ class Response:
         except Exception as e:
             print(e)
 
-    #Validates response status
+    # Validates response status
     def validate(self, expected_status):
         """ Validate response status """
         isValid = False

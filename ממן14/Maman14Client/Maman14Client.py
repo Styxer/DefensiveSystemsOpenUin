@@ -1,7 +1,6 @@
 import os
 import random
 
-
 from Constants import Constants
 from Request import Request
 from Response import Response
@@ -9,20 +8,20 @@ from SocketHandler import SocketHandler
 from Op import Op
 from Status import Status
 
-def stopClient(err):  
-    print("\nError:Fatal Error!", err, "Script execution will stop.", sep="\n")
-    exit(1)
 
-# parse server info . 
+
+
+
+# parse server info .
 # return IP String, port. 
 # Stop script if error occurred
 def parseServerInfo(serverInfo):
     try:
         with open(serverInfo, "r") as info:
-         values = info.readline().strip().split(":")        
+            values = info.readline().strip().split(":")
         return values[0], int(values[1])
     except Exception as ex:
-        stopClient(f"Error:parseServerInfo Exception: {ex}!")
+        Constants.stopClient(f"Error:parseServerInfo Exception: {ex}!")
 
 
 # parse backup info for files list. 
@@ -32,15 +31,16 @@ def parseFileList(backupInfo):
         with open(backupInfo, "r") as info:
             filesList = [line.strip() for line in info]
             for fileName in filesList:
-                if len(fileName) > Constants.MAX_NAME_LEN:                    
-                    stopClient(f"Error:file name exceeding length {Constants.MAX_NAME_LEN} was found in {backupInfo}!")
-                if len(filesList) < 2:                    
-                    stopClient(f"Error:there must be least two files in {backupInfo}!")         
+                if len(fileName) > Constants.MAX_NAME_LEN:
+                    Constants.stopClient(f"Error:file name exceeding length {Constants.MAX_NAME_LEN} was found in {backupInfo}!")
+                if len(filesList) < 2:
+                    Constants.stopClient(f"Error:there must be least two files in {backupInfo}!")
             return filesList
     except Exception as ex:
-        stopClient(f"Error:parseFileList Exception: {ex}!")
+        Constants.stopClient(f"Error:parseFileList Exception: {ex}!")
 
-#Send a request for file list from server
+
+# Send a request for file list from server
 def requestFilesList():
     try:
         request = Request.getRequest(Op.FILE_DIR, userID)
@@ -51,9 +51,9 @@ def requestFilesList():
             bytesRead = len(response.payload.payload)
             buffer = response.payload.payload
             while bytesRead < response.payload.size:
-                buffer = buffer + SocketHandler.reciveData(Constants.PACKET_SIZE)              
-            #split by \n and remove empty entries
-            files = [file.strip() for file in buffer.decode('utf-8').split('\n')] 
+                buffer = buffer + SocketHandler.reciveData(Constants.PACKET_SIZE)
+            # split by \n and remove empty entries
+            files = [file.strip() for file in buffer.decode('utf-8').split('\n')]
             files.remove("")  # remove empty entries
             if files:
                 print(f"Received file list, status code {response.status}:")
@@ -62,36 +62,38 @@ def requestFilesList():
             else:
                 print(f"Error:Invalid response: status code {response.status}. file list is empty!")
     except Exception as ex:
-        stopClient(f"Error:requestFilesList Exception: {ex}!")
+        Constants.stopClient(f"Error:requestFilesList Exception: {ex}!")
     finally:
         SocketHandler.closeSocket()
 
-#Request to backup a file to the server
+
+# Request to backup a file to the server
 def requestFileBackup(fileName):
     try:
-        request = Request.getRequest(Op.FILE_BACKUP, userID,  fileName)
+        request = Request.getRequest(Op.FILE_BACKUP, userID, fileName)
         request.payload.size = os.path.getsize(fileName)
-        with open(fileName, "rb") as file: # read binary
+        with open(fileName, "rb") as file:  # read binary
             request.payload.payload = file.read(Constants.PACKET_SIZE - request.sizeWithoutPayload())
-            SocketHandler.initializeSocket(server, port)          
+            SocketHandler.initializeSocket(server, port)
             SocketHandler.sendSocket(request.pack())
             payload = file.read(Constants.PACKET_SIZE - request.sizeWithoutPayload())
             while payload:
                 SocketHandler.sendSocket(request.pack())
-                payload = file.read(Constants.PACKET_SIZE)               
+                payload = file.read(Constants.PACKET_SIZE)
             response = Response(SocketHandler.reciveData(Constants.PACKET_SIZE))
         if response.validate(Status.SUCCESS_BACKUP_REMOVE):
             print(f"File '{fileName}' successfully backed-up. status code {response.status}.")
     except Exception as ex:
-        stopClient(f"Error: requestFileBackup Exception: {ex}!")
+        Constants.stopClient(f"Error: requestFileBackup Exception: {ex}!")
     finally:
         SocketHandler.closeSocket()
+
 
 # request to restore a file from the server
 def requestFileRestore(filename, restoreTo=""):
     try:
         request = Request.getRequest(Op.FILE_RESTORE, userID, filename)
-        SocketHandler.initializeSocket(server, port)          
+        SocketHandler.initializeSocket(server, port)
         SocketHandler.sendSocket(request.pack())
         response = Response(SocketHandler.reciveData(Constants.PACKET_SIZE))
         if response.validate(Status.SUCCESS_RESTORE):
@@ -100,7 +102,7 @@ def requestFileRestore(filename, restoreTo=""):
             if response.fileName is None:
                 print(f"Error: Restore Error. Invalid filename. status code {response.status}.")
             else:
-                file = open(restoreTo, "wb")#write binary
+                file = open(restoreTo, "wb")  # write binary
                 bytesRead = len(response.payload.payload)
                 file.write(response.payload.payload)
                 while bytesRead < response.payload.size:
@@ -108,17 +110,19 @@ def requestFileRestore(filename, restoreTo=""):
                     dataLen = len(data)
                     if dataLen + bytesRead > response.payload.size:
                         dataLen = response.payload.size - bytesRead
-                    file.write(data[:dataLen])                    
+                    file.write(data[:dataLen])
                     bytesRead += dataLen
-                file.close()        
-                print(f"File '{response.fileName}' successfully restored to {restoreTo}. status code {response.status}.")  
-            
+                file.close()
+                print(
+                    f"File '{response.fileName}' successfully restored to {restoreTo}. status code {response.status}.")
+
     except Exception as ex:
         print(f"Error:requestFileRestore error! Exception: {ex}")
     finally:
         SocketHandler.closeSocket()
 
-# request to remove a file from the server 
+
+# request to remove a file from the server
 def requestFileRemoval(fileName):
     try:
         request = Request.getRequest(Op.FILE_DELETE, userID, fileName)
@@ -135,14 +139,14 @@ def requestFileRemoval(fileName):
 
 
 if __name__ == '__main__':
-    try:   
+    try:
         print("Hello im the client and im alive")
-        userID = random.randint(1, 0xFFFFFFFF)  #generate a random integer between 0 and 2^32 - 1, inclusive
+        userID = random.randint(1, 0xFFFFFFFF)  # generate a random integer between 0 and 2^32 - 1, inclusive
         server, port = parseServerInfo(Constants.SERVER_INFO)
         print(f"Client & Server info:\n\tUserId: {userID}\n\tServer: {server},\tPort: {port}")
         backupList = parseFileList(Constants.BACKUP_INFO)
 
-        #Work work work
+        # Work work work
         requestFilesList()  # Request file list from server.
         requestFileBackup(backupList[0])  # Backup first file.
         requestFileBackup(backupList[1])  # Backup second file.
@@ -154,6 +158,4 @@ if __name__ == '__main__':
         print("Client work has done")
 
     except Exception as ex:
-        print(f"Error:Genreal error! Exception: {ex}")
-
-    
+        print(f"Error:General error! Exception: {ex}")
