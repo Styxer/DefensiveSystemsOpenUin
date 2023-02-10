@@ -13,8 +13,7 @@ sys.path.append("...")
 import constants
 
 class Database:
-    def __int__(self, filename: str = constants.DB_FILE_NAME):    
-        
+    def __int__(self, filename: str = constants.DB_FILE_NAME):  
         self.file_db = sqlite3.connect(filename)
         self.memorey_db = sqlite3.connect(":memory:")
         self.file_cursor = self.file_db.cursor()
@@ -22,7 +21,7 @@ class Database:
 
         with open(constants.SQL_CREATE_FILE, 'r') as sql_create_file:
             create = sql_create_file.read()
-        self.execute_script(self, create)
+        self.execute_script(create)
 
     #Execute an sql script on db(in memorey and file db)
     #Returns the result of the file db
@@ -33,7 +32,8 @@ class Database:
        except Exception as e:
            print(e)
 
-    #?
+    #Execute an sql script on db(in memorey and file db)
+    #Returns the result of the file db
     def execute(self, *args, **kwargs):
         self.memorey_cursor.execute(*args, **kwargs)
         return self.file_cursor.execute(*args, **kwargs)
@@ -167,6 +167,11 @@ class Database:
     #endregion
     
 if __name__ == '__main__':
-    DATABASE = Database.__int__(Database)
+    database = Database.__init__(Database)     
+    database = Database()
+    database.register_client(111, "DDD")
+    database.register_client(Database,222, "aaa")
+    database.register_client(Database,333, "bbb")
+    database.register_client(Database,111, "bbb")
 
 
