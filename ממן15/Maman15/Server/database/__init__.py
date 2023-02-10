@@ -7,10 +7,7 @@ from File import  File
 import os
 import sqlite3
 
-
-
-sys.path.append("...")
-import constants
+from ..constants import constants
 
 class Database:
     def __int__(self, filename: str = constants.DB_FILE_NAME):  
@@ -165,7 +162,7 @@ class Database:
 
 
     #endregion
-    
+'''   
 if __name__ == '__main__':
     database = Database.__init__(Database)     
     database = Database()
@@ -173,5 +170,5 @@ if __name__ == '__main__':
     database.register_client(Database,222, "aaa")
     database.register_client(Database,333, "bbb")
     database.register_client(Database,111, "bbb")
-
+'''
 
