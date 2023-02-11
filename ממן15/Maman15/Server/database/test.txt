@@ -1,1 +1,0 @@
-python db_handler_tests.py test_MyTest test_sqllite3_create
