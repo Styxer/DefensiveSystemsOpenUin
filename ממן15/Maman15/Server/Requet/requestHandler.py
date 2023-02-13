@@ -9,9 +9,9 @@ from ..FileManager import FileManager
 from ..Response import Response
 from ..Database import Database
 
-from .base_request import Request
-from .header import RequestHeader
-from .codes import RequestCode
+from .baseRequest import Request
+from .requestHeader import RequestHeader
+from .requestHeader import RequestCode
 
 
 class RequestHandler:

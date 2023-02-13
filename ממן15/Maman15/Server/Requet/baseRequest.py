@@ -1,13 +1,13 @@
 from asyncio import StreamReader, StreamWriter
 from abc import ABC, abstractmethod
 
-from ..file_manager import FileManager
-from .utils import SerializableClass
-from ..response import Response
-from ..database import Database
+from ..FileManager import FileManager
+from ...Utils import SerializableClass
+from ..Response import Response
+from ..Database import Database
 
-from .header import RequestHeader
-from .codes import RequestCode
+from .requestHeader import RequestHeader
+from .requestCodes import RequestCode
 
 
 class Request(ABC, SerializableClass):
@@ -25,10 +25,10 @@ class Request(ABC, SerializableClass):
     #Handles requests as they're received by the server. This method is called by
     #the Server::handle_request method, and can be overridden by subclasses. This method
     #isn't in charge of closing the request - only parsing the request, acting on it and
-    # writing the response back to the client.
-    #:param header: The parsed request header. Passed down to the abstract handle method.
-    # :param reader: The StreamReader used by the client.
-    #:param writer: The StreamWriter used by the client.
+    #writing the response back to the client.
+    #param header: The parsed request header. Passed down to the abstract handle method.
+    #param reader: The StreamReader used by the client.
+    #param writer: The StreamWriter used by the client.
     @classmethod
     async def raw_handler(cls, header: RequestHeader, database: Database, file_manager: FileManager,
                           reader: StreamReader, writer: StreamWriter):

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from ...constants import CLIENT_ID_LENGTH
 from ...Utils import SerializableClass
 
-from .codes import RequestCode
+from .requestCodes import RequestCode
 
 #Defines the shared header sent in the beginning of all requests to the server.
 @dataclass
