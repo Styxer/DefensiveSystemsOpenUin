@@ -5,7 +5,7 @@ from Crypto.Cipher import PKCS1_OAEP
 from Crypto.PublicKey import RSA
 
 from . import Request, RequestCode, RequestHeader
-from ...response import Response, ResponseCode
+from ...Response import Response, ResponseCode
 from ....constants import (
     CLIENT_ID_LENGTH,
     MAX_USERNAME_LENGTH,
