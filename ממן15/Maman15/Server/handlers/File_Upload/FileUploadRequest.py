@@ -9,10 +9,10 @@ from Crypto.Util.Padding import unpad
 
 from ...Requet import Request, RequestCode, RequestHeader
 from ...Response import Response, ResponseCode
-from ...file_manager import FileManager
-from ...Utils import unix_checksum
-from ...database import Database
-from ...constants import (
+from ...FileManager import FileManager
+from ....Utils import unix_checksum
+from ...Database import Database
+from ....constants import (
     CLIENT_ID_LENGTH,
     MAX_FILENAME_LENGTH,
     AES_BLOCK_SIZE,
@@ -44,7 +44,7 @@ class FileUploadRequest(Request):
         checksum = unix_checksum()
 
         blocks = inner_header.content_size // AES.block_size
-        for _ in range(blocks):
+        for range in range(blocks):
             encrypted_block = await reader.readexactly(AES.block_size)
             block = cipher.decrypt(encrypted_block)
             file_manager.append_to_file(file, block)
