@@ -11,7 +11,8 @@ from ... import (
     MAX_FILENAME_LENGTH
 )
 
+import CRCRequest
+
 @dataclass
-class ACKResponse(Response):
-    STRUCT_FORMAT = ''
-    CODE = ResponseCode.ACK
+class CorrectCRCRequest(CRCRequest):
+    CODE = RequestCode.CORRECT_CRC

@@ -11,7 +11,8 @@ from ... import (
     MAX_FILENAME_LENGTH
 )
 
-@dataclass
-class ACKResponse(Response):
-    STRUCT_FORMAT = ''
-    CODE = ResponseCode.ACK
+import CRCRequest
+
+dataclass
+class IncorrectCRCRetryRequest(CRCRequest):
+    CODE = RequestCode.INCORRECT_CRC_RETRY
