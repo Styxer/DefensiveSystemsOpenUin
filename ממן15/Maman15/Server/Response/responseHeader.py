@@ -1,8 +1,7 @@
 from dataclasses import dataclass
 
-from ...constants import SERVER_VERSION
-from ...Utils import SerializableClass
-from .response_codes import ResponseCode
+from ..Utils import SerializableClass
+from .responseCodes import ResponseCode
 
 @dataclass
 class ResponseHeader(SerializableClass):

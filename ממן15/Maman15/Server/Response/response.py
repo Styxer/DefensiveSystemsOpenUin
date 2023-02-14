@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from ...constants import SERVER_VERSION
-from ...Utils import SerializableClass
+from ..Constants import SERVER_VERSION
+from ..Utils import SerializableClass
 from .responseCodes import ResponseCode
 from .responseHeader import ResponseHeader 
 

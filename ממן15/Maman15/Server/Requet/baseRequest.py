@@ -2,15 +2,14 @@ from asyncio import StreamReader, StreamWriter
 from abc import ABC, abstractmethod
 
 from ..FileManager import FileManager
-from ...Utils import SerializableClass
+from ..Utils import SerializableClass
 from ..Response import Response
 from ..Database import Database
 
 from .requestHeader import RequestHeader
 from .requestCodes import RequestCode
 
-
-class Request(ABC, SerializableClass):
+class BaseRequest(ABC, SerializableClass):
     database: Database
     file_manager: FileManager
 

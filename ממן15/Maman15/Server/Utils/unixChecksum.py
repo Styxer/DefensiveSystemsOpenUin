@@ -1,6 +1,6 @@
 from utils import crctab
 
-class unix_checksum:
+class UnixChecksum:
     def __init__(self) -> None:
         self.nchars = 0
         self.crc = 0

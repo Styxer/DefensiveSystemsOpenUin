@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from ...constants import CLIENT_ID_LENGTH
-from ...Utils import SerializableClass
+from ..Constants import CLIENT_ID_LENGTH
+from ..Utils import SerializableClass
 
 from .requestCodes import RequestCode
 

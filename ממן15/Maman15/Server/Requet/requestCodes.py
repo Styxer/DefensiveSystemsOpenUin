@@ -1,6 +1,5 @@
 from enum import IntEnum, unique
 
-
 @unique
 class RequestCode(IntEnum):
     USER_REGISTERATION = 1100

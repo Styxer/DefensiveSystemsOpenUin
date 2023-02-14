@@ -1,6 +1,5 @@
 from enum import IntEnum, unique
 
-
 @unique
 class ResponseCode(IntEnum):
     REGISTER_SUCCESS = 2100
