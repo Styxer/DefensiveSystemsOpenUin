@@ -39,3 +39,7 @@ CRC_CHUNK_SIZE = 128
 
 # Server version, as defined in the assignment.
 SERVER_VERSION = 3
+
+DEFAULT_PORT_FILENAME = 'port.info'
+
+SERVER_LITSEN_IP = '0.0.0.0'
