@@ -27,8 +27,7 @@ public:
 #pragma endregion
 
 
-#pragma region Encrypt and Encrypt
-
+#pragma region Encrypt
 	std::string encrypt(const std::string& plain);
 	std::string encrypt(const uint8_t* plain, unsigned int len);
 #pragma endregion

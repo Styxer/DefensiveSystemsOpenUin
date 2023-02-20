@@ -31,10 +31,16 @@
     <Filter Include="Header Files\Encryption">
       <UniqueIdentifier>{b80a4d70-004e-44b0-8da1-bef269dfd6cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Encryption\RSA">
+      <UniqueIdentifier>{148dc42e-aa77-45ed-a4e0-063c1f3b084d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Base64Handler.cpp">
+      <Filter>Source Files\Encryption</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -44,14 +50,14 @@
     <ClInclude Include="Base64Handler.h">
       <Filter>Header Files\Encryption</Filter>
     </ClInclude>
+    <ClInclude Include="RSAHandler.h">
+      <Filter>Header Files\Encryption\RSA</Filter>
+    </ClInclude>
     <ClInclude Include="PublicRSAHandler.h">
-      <Filter>Header Files\Encryption</Filter>
+      <Filter>Header Files\Encryption\RSA</Filter>
     </ClInclude>
     <ClInclude Include="PrivateRSAHandler.h">
-      <Filter>Header Files\Encryption</Filter>
-    </ClInclude>
-    <ClInclude Include="RSAHandler.h">
-      <Filter>Header Files\Encryption</Filter>
+      <Filter>Header Files\Encryption\RSA</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
