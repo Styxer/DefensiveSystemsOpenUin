@@ -43,6 +43,6 @@ private:
 	uint8_t key_[default_key_length];
 	aes_handler(const aes_handler& aes);
 
-	CryptoPP::AutoSeededRandomPool prng;
+	CryptoPP::AutoSeededRandomPool rng_;
 	CryptoPP::SecByteBlock generate_block();
 };

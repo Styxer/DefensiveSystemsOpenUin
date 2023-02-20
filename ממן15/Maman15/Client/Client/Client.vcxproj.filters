@@ -34,6 +34,9 @@
     <Filter Include="Header Files\Encryption\RSA">
       <UniqueIdentifier>{148dc42e-aa77-45ed-a4e0-063c1f3b084d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Encryption\RSA">
+      <UniqueIdentifier>{427bca9b-9f28-4a09-9f43-d640f9a96fcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -44,6 +47,12 @@
     </ClCompile>
     <ClCompile Include="aes_handler.cpp">
       <Filter>Source Files\Encryption</Filter>
+    </ClCompile>
+    <ClCompile Include="PublicRSAHandler.cpp">
+      <Filter>Source Files\Encryption\RSA</Filter>
+    </ClCompile>
+    <ClCompile Include="PrivateRSAHandler.cpp">
+      <Filter>Source Files\Encryption\RSA</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

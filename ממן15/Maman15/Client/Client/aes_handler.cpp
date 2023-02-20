@@ -82,7 +82,7 @@ std::string aes_handler::decrypt(const uint8_t* encrypted_data, unsigned int len
 SecByteBlock aes_handler::generate_block()
 {
 	SecByteBlock block(CryptoPP::AES::BLOCKSIZE);
-	prng.GenerateBlock(block, block.size());
+	rng_.GenerateBlock(block, block.size());
 	return  block;
 }
 

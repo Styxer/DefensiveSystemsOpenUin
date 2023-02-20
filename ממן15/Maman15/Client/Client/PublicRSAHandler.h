@@ -11,12 +11,8 @@ public:
 #pragma endregion
 
 #pragma region Ctors
-	public_rsa_handler(const std::string& key)					 = delete;
-	public_rsa_handler(const uint8_t* key, unsigned int length)  = delete;
-#pragma endregion
-
-#pragma region Dtors
-	~public_rsa_handler()										 = delete;
+	public_rsa_handler(const std::string& key);
+	public_rsa_handler(const uint8_t* key, unsigned int len);
 #pragma endregion
 
 #pragma region Functions
@@ -28,8 +24,8 @@ public:
 
 
 #pragma region Encrypt
-	std::string encrypt(const std::string& plain);
-	std::string encrypt(const uint8_t* plain, unsigned int len);
+	std::string encrypt(const std::string& plain) const;
+	std::string encrypt(const uint8_t* plain, unsigned int len) const;
 #pragma endregion
 
 #pragma endregion
@@ -37,17 +33,16 @@ public:
 protected:
 
 private:
-#pragma region Variables
-	/*CryptoPP::AutoSeededRandomPool rng_pool_;
-	CryptoPP::RSA::PublicKey public_key_;	*/
+#pragma region Variables	
+	RSA::PublicKey public_key_;
 #pragma endregion
 
-#pragma region Copy Ctor
-	public_rsa_handler(const public_rsa_handler& rsa);
-#pragma endregion
-
-#pragma region Opreator overrides
-	public_rsa_handler& operator=(const public_rsa_handler& rsa);
-#pragma endregion
+//#pragma region Copy Ctor
+//	public_rsa_handler(const public_rsa_handler& rsa);
+//#pragma endregion
+//
+//#pragma region Opreator overrides
+//	public_rsa_handler& operator=(const public_rsa_handler& rsa);
+//#pragma endregion
 
 };
