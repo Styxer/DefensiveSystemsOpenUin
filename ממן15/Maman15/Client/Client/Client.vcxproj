@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="aes_handler.cpp" />
     <ClCompile Include="Base64Handler.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>

@@ -42,6 +42,9 @@
     <ClCompile Include="Base64Handler.cpp">
       <Filter>Source Files\Encryption</Filter>
     </ClCompile>
+    <ClCompile Include="aes_handler.cpp">
+      <Filter>Source Files\Encryption</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AESHandler.h">
