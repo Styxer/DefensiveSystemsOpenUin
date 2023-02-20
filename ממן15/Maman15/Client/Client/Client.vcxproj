@@ -104,13 +104,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\genni\Downloads\cryptopp870;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\genni\Downloads\boost_1_81_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>C:\Users\genni\Downloads\cryptopp870\x64\Output\Debug;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\genni\Downloads\boost_1_81_0\bin\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -121,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\genni\Downloads\cryptopp870;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\genni\Downloads\boost_1_81_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -130,11 +131,13 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>C:\Users\genni\Downloads\cryptopp870\x64\Output\Debug;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\genni\Downloads\boost_1_81_0\bin\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="aes_handler.cpp" />
     <ClCompile Include="Base64Handler.cpp" />
+    <ClCompile Include="Checksum.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PrivateRSAHandler.cpp" />
     <ClCompile Include="PublicRSAHandler.cpp" />
@@ -142,6 +145,8 @@
   <ItemGroup>
     <ClInclude Include="AESHandler.h" />
     <ClInclude Include="Base64Handler.h" />
+    <ClInclude Include="Checksum.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="PrivateRSAHandler.h" />
     <ClInclude Include="PublicRSAHandler.h" />
     <ClInclude Include="RSAHandler.h" />

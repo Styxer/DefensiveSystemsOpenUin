@@ -37,6 +37,12 @@
     <Filter Include="Source Files\Encryption\RSA">
       <UniqueIdentifier>{427bca9b-9f28-4a09-9f43-d640f9a96fcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{5f4fa143-a1c3-498c-b6e2-739c5233838c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{a0f5c4ca-611c-4f1b-ad96-9dc14ebaf142}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -54,6 +60,9 @@
     <ClCompile Include="PrivateRSAHandler.cpp">
       <Filter>Source Files\Encryption\RSA</Filter>
     </ClCompile>
+    <ClCompile Include="Checksum.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AESHandler.h">
@@ -70,6 +79,12 @@
     </ClInclude>
     <ClInclude Include="PrivateRSAHandler.h">
       <Filter>Header Files\Encryption\RSA</Filter>
+    </ClInclude>
+    <ClInclude Include="Checksum.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
