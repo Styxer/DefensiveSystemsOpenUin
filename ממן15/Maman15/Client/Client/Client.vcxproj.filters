@@ -43,6 +43,15 @@
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{a0f5c4ca-611c-4f1b-ad96-9dc14ebaf142}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Request\CRC">
+      <UniqueIdentifier>{ef70d8de-bc87-4292-9741-70e37f781462}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Request\FileUpload">
+      <UniqueIdentifier>{dcddb647-380f-4010-8308-b7ce62ce40f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Request\PublicKeyExchange">
+      <UniqueIdentifier>{be0dfba8-3ad6-456b-8268-56e246f82244}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -85,6 +94,33 @@
     </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="RequestCode.h">
+      <Filter>Header Files\Request</Filter>
+    </ClInclude>
+    <ClInclude Include="RequestHeader.h">
+      <Filter>Header Files\Request</Filter>
+    </ClInclude>
+    <ClInclude Include="Request .h">
+      <Filter>Header Files\Request</Filter>
+    </ClInclude>
+    <ClInclude Include="CRCRequestPayload .h">
+      <Filter>Header Files\Request\CRC</Filter>
+    </ClInclude>
+    <ClInclude Include="CRCRequest .h">
+      <Filter>Header Files\Request\CRC</Filter>
+    </ClInclude>
+    <ClInclude Include="FileUploadRequest .h">
+      <Filter>Header Files\Request\FileUpload</Filter>
+    </ClInclude>
+    <ClInclude Include="FileUploadPayload .h">
+      <Filter>Header Files\Request\FileUpload</Filter>
+    </ClInclude>
+    <ClInclude Include="PublicKeyExchangePayload .h">
+      <Filter>Header Files\Request\PublicKeyExchange</Filter>
+    </ClInclude>
+    <ClInclude Include="PublicKeyExchangeRequest .h">
+      <Filter>Header Files\Request\PublicKeyExchange</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

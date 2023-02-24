@@ -30,6 +30,8 @@ public:
 
 #pragma endregion
 
+	static constexpr unsigned int key_size = 160;
+
 protected:
 
 private:

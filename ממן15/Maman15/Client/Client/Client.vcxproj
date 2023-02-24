@@ -147,8 +147,17 @@
     <ClInclude Include="Base64Handler.h" />
     <ClInclude Include="Checksum.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="CRCRequest .h" />
+    <ClInclude Include="CRCRequestPayload .h" />
+    <ClInclude Include="FileUploadPayload .h" />
+    <ClInclude Include="FileUploadRequest .h" />
     <ClInclude Include="PrivateRSAHandler.h" />
+    <ClInclude Include="PublicKeyExchangePayload .h" />
+    <ClInclude Include="PublicKeyExchangeRequest .h" />
     <ClInclude Include="PublicRSAHandler.h" />
+    <ClInclude Include="Request .h" />
+    <ClInclude Include="RequestCode.h" />
+    <ClInclude Include="RequestHeader.h" />
     <ClInclude Include="RSAHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

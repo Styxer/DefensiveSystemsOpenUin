@@ -26,6 +26,8 @@ public:
 
 	std::string get_public_key() const;
 	uint8_t* get_public_key(uint8_t* key_out, unsigned int len) const;
+
+	static constexpr unsigned int block_size = 128;
 #pragma endregion
 
 #pragma region Decrypt
