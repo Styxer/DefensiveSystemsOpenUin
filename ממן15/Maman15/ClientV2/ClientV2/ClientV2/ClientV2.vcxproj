@@ -18,11 +18,28 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Config\Headers\ClientConfig.h" />
+    <ClInclude Include="Config\Headers\TransferConfig.h" />
+    <ClInclude Include="Encryption\Headers\AESWrapper.h" />
+    <ClInclude Include="Encryption\Headers\Base64Wrapper.h" />
+    <ClInclude Include="Encryption\Headers\RSAWrapper.h" />
+    <ClInclude Include="User\Header\User.h" />
+    <ClInclude Include="Utils\Headers\Checksum.h" />
+    <ClInclude Include="Utils\Headers\Constants.h" />
+    <ClInclude Include="Utils\Headers\Serialize.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Encryption\Implementation\AESWrapper.cpp" />
+    <ClCompile Include="Encryption\Implementation\Base64Wrapper.cpp" />
+    <ClCompile Include="Encryption\Implementation\RSAWrapper.cpp" />
+    <ClCompile Include="Utils\Implementation\Checksum.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{4d3ce118-6be0-4e7b-9d83-946864e91c7c}</ProjectGuid>
-    <RootNamespace>Client</RootNamespace>
+    <ProjectGuid>{b5ed19f9-40d2-41ae-86c6-54112efe465f}</ProjectGuid>
+    <RootNamespace>ClientV2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -104,14 +121,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\genni\Downloads\boost_1_81_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>C:\Users\genni\Downloads\cryptopp870\x64\Output\Debug;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\genni\Downloads\boost_1_81_0\bin\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -122,50 +135,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\genni\Downloads\boost_1_81_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>C:\Users\genni\Downloads\cryptopp870\x64\Output\Debug;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\genni\Downloads\boost_1_81_0\bin\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="aes_handler.cpp" />
-    <ClCompile Include="Base64Handler.cpp" />
-    <ClCompile Include="Checksum.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="PrivateRSAHandler.cpp" />
-    <ClCompile Include="PublicRSAHandler.cpp" />
-    <ClCompile Include="Request.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AESHandler.h" />
-    <ClInclude Include="Base64Handler.h" />
-    <ClInclude Include="Checksum.h" />
-    <ClInclude Include="Constants.h" />
-    <ClInclude Include="CRCRequest .h" />
-    <ClInclude Include="CRCRequestPayload .h" />
-    <ClInclude Include="FileUploadPayload .h" />
-    <ClInclude Include="FileUploadRequest .h" />
-    <ClInclude Include="PrivateRSAHandler.h" />
-    <ClInclude Include="PublicKeyExchangePayload .h" />
-    <ClInclude Include="PublicKeyExchangeRequest .h" />
-    <ClInclude Include="PublicRSAHandler.h" />
-    <ClInclude Include="Request .h" />
-    <ClInclude Include="RequestCode.h" />
-    <ClInclude Include="RequestHeader.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="RSAHandler.h" />
-    <ClInclude Include="serialize.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Client.rc" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

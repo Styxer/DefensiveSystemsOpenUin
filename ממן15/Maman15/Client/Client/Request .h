@@ -1,4 +1,6 @@
 #pragma once
+#include <boost/serialization/access.hpp>
+
 #include "RequestCode.h"
 #include "RequestHeader.h"
 #include "Constants.h"
@@ -13,7 +15,7 @@ public:
 #pragma endregion
 
 
-    const RequestHeader& Request<C, T>::getHeader() const noexcept {
+    const RequestHeader& request<C, T>::getHeader() const noexcept {
         return this->header_;
     }
 
@@ -26,6 +28,14 @@ protected:
     T payload_;
 
 private:
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive& ar, RequestHeader const& request_header)
+    {
+        ar& m_name;
+        ar& m_age;
+    }
 };
 
 std::ostream& operator<<=(std::ostream& out, RequestHeader const& request_header);

@@ -72,6 +72,9 @@
     <ClCompile Include="Checksum.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Request.cpp">
+      <Filter>Source Files\Request</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AESHandler.h">
@@ -122,5 +125,16 @@
     <ClInclude Include="PublicKeyExchangeRequest .h">
       <Filter>Header Files\Request\PublicKeyExchange</Filter>
     </ClInclude>
+    <ClInclude Include="serialize.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

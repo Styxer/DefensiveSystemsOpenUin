@@ -4,6 +4,7 @@
 #include "Request .h"
 
 #include "Constants.h"
+#include "serialize.h"
 
 template<RequestCode C>
 class CRCRequest : public Request<C, crc_request_payload> {

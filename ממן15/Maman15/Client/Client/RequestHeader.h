@@ -14,7 +14,7 @@ public:
 #pragma endregion
 
 #pragma region Get And Set Client ID
-	const client_id& get_client_id();
+	const client_id& get_client_id() const;
 	void set_client_id(const client_id& client_id) noexcept;
 #pragma endregion
 

@@ -3,6 +3,7 @@
 #include "Request .h"
 #include "RequestCode.h"
 #include "Constants.h"
+#include "serialize.h"
 
 
 class PublicKeyExchangeRequest : public Request<RequestCode::public_key_exchange, PublicKeyExchangePayload> {
