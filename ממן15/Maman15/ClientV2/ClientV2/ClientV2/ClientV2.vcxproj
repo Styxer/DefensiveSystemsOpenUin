@@ -24,15 +24,29 @@
     <ClInclude Include="Encryption\Headers\AESWrapper.h" />
     <ClInclude Include="Encryption\Headers\Base64Wrapper.h" />
     <ClInclude Include="Encryption\Headers\RSAWrapper.h" />
+    <ClInclude Include="Request\Headers\CRC\CRCRequest.h" />
+    <ClInclude Include="Request\Headers\CRC\CRCRequestPayload.h" />
+    <ClInclude Include="Request\Headers\FileUpload\FileUploadPayload.h" />
+    <ClInclude Include="Request\Headers\FileUpload\FileUploadRequest .h" />
+    <ClInclude Include="Request\Headers\PublicKeyExchange\PublicKeyExchangePayload.h" />
+    <ClInclude Include="Request\Headers\PublicKeyExchange\PublicKeyExchangeRequest.h" />
+    <ClInclude Include="Request\Headers\Request\Request.h" />
+    <ClInclude Include="Request\Headers\Request\RequestCode.h" />
+    <ClInclude Include="Request\Headers\Request\RequestHeader.h" />
+    <ClInclude Include="Request\Headers\UserRegisteration\UserRegistrationPayload.h" />
+    <ClInclude Include="Request\Headers\UserRegisteration\UserRegisterationRequest.h" />
     <ClInclude Include="User\Header\User.h" />
     <ClInclude Include="Utils\Headers\Checksum.h" />
     <ClInclude Include="Utils\Headers\Constants.h" />
     <ClInclude Include="Utils\Headers\Serialize.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Config\Implementation\ClientConfig.cpp" />
+    <ClCompile Include="Config\Implementation\TransferConfig.cpp" />
     <ClCompile Include="Encryption\Implementation\AESWrapper.cpp" />
     <ClCompile Include="Encryption\Implementation\Base64Wrapper.cpp" />
     <ClCompile Include="Encryption\Implementation\RSAWrapper.cpp" />
+    <ClCompile Include="Request\Implementation\Request.cpp" />
     <ClCompile Include="Utils\Implementation\Checksum.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

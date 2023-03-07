@@ -42,6 +42,39 @@
     <ClInclude Include="Config\Headers\TransferConfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Request\Headers\CRC\CRCRequestPayload.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Request\Headers\CRC\CRCRequest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Request\Headers\FileUpload\FileUploadRequest .h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Request\Headers\FileUpload\FileUploadPayload.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Request\Headers\PublicKeyExchange\PublicKeyExchangePayload.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Request\Headers\PublicKeyExchange\PublicKeyExchangeRequest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Request\Headers\UserRegisteration\UserRegistrationPayload.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Request\Headers\UserRegisteration\UserRegisterationRequest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Request\Headers\Request\RequestCode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Request\Headers\Request\RequestHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Request\Headers\Request\Request.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Encryption\Implementation\AESWrapper.cpp">
@@ -54,6 +87,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utils\Implementation\Checksum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Implementation\TransferConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Implementation\ClientConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Request\Implementation\Request.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
