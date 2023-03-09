@@ -48,7 +48,7 @@
     <ClInclude Include="Request\Headers\CRC\CRCRequest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Request\Headers\FileUpload\FileUploadRequest .h">
+    <ClInclude Include="Request\Headers\FileUpload\FileUploadRequest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Request\Headers\FileUpload\FileUploadPayload.h">

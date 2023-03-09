@@ -27,7 +27,7 @@
     <ClInclude Include="Request\Headers\CRC\CRCRequest.h" />
     <ClInclude Include="Request\Headers\CRC\CRCRequestPayload.h" />
     <ClInclude Include="Request\Headers\FileUpload\FileUploadPayload.h" />
-    <ClInclude Include="Request\Headers\FileUpload\FileUploadRequest .h" />
+    <ClInclude Include="Request\Headers\FileUpload\FileUploadRequest.h" />
     <ClInclude Include="Request\Headers\PublicKeyExchange\PublicKeyExchangePayload.h" />
     <ClInclude Include="Request\Headers\PublicKeyExchange\PublicKeyExchangeRequest.h" />
     <ClInclude Include="Request\Headers\Request\Request.h" />

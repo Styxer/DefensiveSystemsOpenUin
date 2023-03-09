@@ -17,7 +17,7 @@ class User {
 public:
 	User(ClientConfig& client_config) : client_config_(client_config), rsa_(client_config.get_private_key()), aes_() {}
 
-	void sign_up(tcp::iostream& tcp_stream);
+	void sign_up(tcp::iostream& tcp_stream) const;
 
 	void do_key_exchange(tcp::iostream& tcp_stream);
 
