@@ -11,7 +11,7 @@ public:
 
 	RequestHeader(const RequestCode code, const uint32_t payload_size) : RequestHeader({ 0 }, code, payload_size) {}
 
-	const client_id& get_client_id();
+	const client_id& get_client_id() const;
 
 	void set_client_id(const client_id& client_id) noexcept;
 

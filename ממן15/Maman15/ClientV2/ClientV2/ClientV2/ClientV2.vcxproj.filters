@@ -75,6 +75,21 @@
     <ClInclude Include="Request\Headers\Request\Request.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Response\Headers\AESKeyExchange.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Response\Headers\FileUploadSuccess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Response\Headers\RegisterResponse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Response\Headers\ResponseCode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Response\Headers\ResponseHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Encryption\Implementation\AESWrapper.cpp">
@@ -96,6 +111,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Request\Implementation\Request.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Response\Implementation\Response.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

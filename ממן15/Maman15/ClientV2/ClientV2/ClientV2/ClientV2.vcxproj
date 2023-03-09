@@ -35,6 +35,11 @@
     <ClInclude Include="Request\Headers\Request\RequestHeader.h" />
     <ClInclude Include="Request\Headers\UserRegisteration\UserRegistrationPayload.h" />
     <ClInclude Include="Request\Headers\UserRegisteration\UserRegisterationRequest.h" />
+    <ClInclude Include="Response\Headers\AESKeyExchange.h" />
+    <ClInclude Include="Response\Headers\FileUploadSuccess.h" />
+    <ClInclude Include="Response\Headers\RegisterResponse.h" />
+    <ClInclude Include="Response\Headers\ResponseCode.h" />
+    <ClInclude Include="Response\Headers\ResponseHeader.h" />
     <ClInclude Include="User\Header\User.h" />
     <ClInclude Include="Utils\Headers\Checksum.h" />
     <ClInclude Include="Utils\Headers\Constants.h" />
@@ -47,6 +52,7 @@
     <ClCompile Include="Encryption\Implementation\Base64Wrapper.cpp" />
     <ClCompile Include="Encryption\Implementation\RSAWrapper.cpp" />
     <ClCompile Include="Request\Implementation\Request.cpp" />
+    <ClCompile Include="Response\Implementation\Response.cpp" />
     <ClCompile Include="Utils\Implementation\Checksum.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

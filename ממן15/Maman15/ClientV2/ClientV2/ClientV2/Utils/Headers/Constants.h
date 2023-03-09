@@ -2,8 +2,6 @@
 
 #include <array>
 
-
-
 // The client 
 constexpr uint8_t client_version = 3;
 
