@@ -4,12 +4,10 @@
 #include <vector>
 #include <boost/asio.hpp>
 
-#include "../../Utils/Headers/Constants.h"
+#include "../../Config/Headers/ClientConfig.h"
 
-#include "../../Config/ClientConfig.h"
-
-#include "../encryption/RSAWrapper.h"
-#include "../encryption/AESWrapper.h"
+#include "../../Encryption/Headers/RSAWrapper.h"
+#include "../../Encryption/Headers/AESWrapper.h"
 
 #pragma once
 
@@ -17,18 +15,18 @@ using boost::asio::ip::tcp;
 
 class User {
 public:
-	User(ClientConfig& clientConfig) : _clientConfig(clientConfig), _rsa(clientConfig.getPrivateKey()), _aes() {};
+	User(ClientConfig& client_config) : client_config_(client_config), rsa_(client_config.get_private_key()), aes_() {}
 
-	void signUp(tcp::iostream& tcpStream);
+	void sign_up(tcp::iostream& tcp_stream);
 
-	void doKeyExchange(tcp::iostream& tcpStream);
+	void do_key_exchange(tcp::iostream& tcp_stream);
 
-	void uploadFile(tcp::iostream& tcpStream, const std::string& filename);
+	void upload_file(tcp::iostream& tcp_stream, const std::string& file_name);
 
 private:
-	ClientConfig& _clientConfig;
-	RSAPrivateWrapper _rsa;
-	AESWrapper _aes;
+	ClientConfig& client_config_;
+	RSAPrivateWrapper rsa_;
+	AESWrapper aes_;
 
-	uint32_t _sendFile(tcp::iostream& tcpStream, const std::string& filename, const std::vector<uint8_t>& fileContents, uint32_t fileSize);
+	uint32_t send_file(tcp::iostream& tcp_stream, const std::string& file_name, const std::vector<uint8_t>& file_contents, uint32_t file_size);
 };

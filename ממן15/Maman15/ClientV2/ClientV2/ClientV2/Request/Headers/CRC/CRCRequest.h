@@ -6,8 +6,9 @@
 #include "../../../Utils/Headers/Constants.h"
 #include "../../../Utils/Headers/Serialize.h"
 
+#include "./../Request/Request.h"
 
-template<co C>
+template<RequestCode  C>
 class CRCRequest : public Request<C, CRCRequestPayload> {
 public:
     CRCRequest(const client_id& client_id, const std::string& filename) : Request(client_id) {
@@ -16,9 +17,9 @@ public:
     }
 };
 
-using correct_crc_request = CRCRequest<RequestCode::CORRECT_CRC>;
-using incorrect_crc_retry_request = CRCRequest<RequestCode::INCORRECT_CRC_RETRY>;
-using incorrect_crc_final_request = CRCRequest<RequestCode::INCORRECT_CRC_FINAL>;
+using correct_crc_request = CRCRequest<RequestCode::correct_crc>;
+using incorrect_crc_retry_request = CRCRequest<RequestCode::incorrect_crc_retry>;
+using incorrect_crc_final_request = CRCRequest<RequestCode::incorrect_crc_final>;
 
 inline std::ostream& operator <<=(std::ostream& out, CRCRequestPayload const& payload) {
     out <<= payload.client_id;

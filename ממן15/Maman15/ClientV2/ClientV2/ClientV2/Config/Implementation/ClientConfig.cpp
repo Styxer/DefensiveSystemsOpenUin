@@ -13,7 +13,7 @@
 
 #include "../Headers/ClientConfig.h"
 
-ClientConfig::ClientConfig(const std::string& filename) : file_(filename), username_(), client_id_({ 0 }), private_key_(), public_key_(), is_full_(false) {
+ClientConfig::ClientConfig(const std::string& filename) : is_full_(false), file_(filename), username_(), client_id_({ 0 }), private_key_(), public_key_() {
     if (!this->file_.is_open()) {
         this->file_.clear();
         this->file_.open(filename, std::ios::out);

@@ -6,13 +6,14 @@
 #include "../../../Utils/Headers/Constants.h"
 #include "../../../Utils/Headers/Serialize.h"
 
+#include "./../Request/Request.h"
 
-class FileUploadRequest : public Request<RequestCode::FILE_UPLOAD, FileUploadPayload> {
+class FileUploadRequest : public Request<RequestCode::file_upload, FileUploadPayload> {
 public:
-    FileUploadRequest(const client_id& client_id, const std::string& filename, uint32_t content_size) : Request(client_id) {
-        std::copy(filename.begin(), filename.end(), this->payload_.filename.begin());
-        std::copy(client_id.begin(), client_id.end(), this->payload_.clientID.begin());
-        this->payload_.contentSize = content_size;
+    FileUploadRequest(const client_id& client_id, const std::string& filename, const uint32_t content_size) : Request(client_id) {
+        std::copy(filename.begin(), filename.end(), this->payload_.file_name.begin());
+        std::copy(client_id.begin(), client_id.end(), this->payload_.client_id.begin());
+        this->payload_.content_size = content_size;
     }
 };
 

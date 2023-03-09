@@ -1,13 +1,7 @@
 #pragma once
 
-#include <iostream>
-
 #include "../../Utils/Headers/Constants.h"
 #include "../../Utils/Headers/Serialize.h"
-
-
-
-
 
 struct RegisterSuccessPayload {
 	client_id client_id;

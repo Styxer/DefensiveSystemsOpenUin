@@ -24,12 +24,12 @@ int main(void) {
         tcp_stream.connect(transfer_config.get_server_address(), transfer_config.get_server_port());
 
         User user(client_config);
-        user.signUp(tcp_stream);
-        user.doKeyExchange(tcp_stream);
+        user.sign_up(tcp_stream);
+        user.do_key_exchange(tcp_stream);
 
         for (auto filename : transfer_config.get_files()) {
             std::cout << "Uploading " << filename << "..." << std::endl;
-            user.uploadFile(tcp_stream, filename);
+            user.upload_file(tcp_stream, filename);
         }
 
         tcp_stream.close();

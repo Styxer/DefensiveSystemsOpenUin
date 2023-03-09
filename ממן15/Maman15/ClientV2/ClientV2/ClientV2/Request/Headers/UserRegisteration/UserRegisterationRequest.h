@@ -2,9 +2,8 @@
 #include <algorithm>
 #include <string>
 
-
 #include "../../../Utils/Headers/Serialize.h"
-
+#include "./../Request/Request.h"
 
 #include "UserRegistrationPayload.h"
 

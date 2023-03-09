@@ -4,11 +4,6 @@
 #include "../../Utils/Headers/Constants.h"
 #include "../../Utils/Headers/Serialize.h"
 
-
-#include "../../Response/Headers/ResponseHeader.h"
-
-
-
 struct FileUploadSuccessPayload {
 	client_id client_id;
 	uint32_t content_size;

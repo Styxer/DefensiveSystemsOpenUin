@@ -1,15 +1,13 @@
 #pragma once
 
-#include <sstream>
 #include <array>
 #include <string>
-#include <memory>
 
 #include <boost/asio.hpp>
-
-#include "../request/Request.h"
-
 #pragma once
+
+//knew about boost::serialization only AFTER i wrote these class
+//Overload some operators în * std::istream and std::ostream .Namely, the <<= and >>= operators.
 
 using boost::asio::ip::tcp;
 using namespace boost;
@@ -26,21 +24,21 @@ template<typename T>
     return in;
 }
 
-template<typename A, size_t N>
- std::ostream& operator <<=(std::ostream& out, std::array<A, N> const& data) {
-    out.write(reinterpret_cast<const char*>(data.data()), N * sizeof(A));
+template<typename T, size_t N>
+ std::ostream& operator <<=(std::ostream& out, std::array<T, N> const& data) {
+    out.write(reinterpret_cast<const char*>(data.data()), N * sizeof(T));
     return out;
 }
 
-template<typename A, size_t N>
- std::istream& operator >>=(std::istream& in, std::array<A, N>& data) {
-    in.read(const_cast<char*>(reinterpret_cast<const char*>(data.data())), N * sizeof(A));
+template<typename T, size_t N>
+ std::istream& operator >>=(std::istream& in, std::array<T, N>& data) {
+    in.read(const_cast<char*>(reinterpret_cast<const char*>(data.data())), N * sizeof(T));
     return in;
 }
 
-template<typename A, size_t N>
- std::istream& operator >>(std::istream& in, std::array<A, N>& data) {
-    size_t readSize = N * sizeof(A);
+template<typename T, size_t N>
+ std::istream& operator >>(std::istream& in, std::array<T, N>& data) {
+    size_t readSize = N * sizeof(T);
 
     if (in.flags() & std::ios_base::hex) {
         readSize *= 2;
@@ -49,9 +47,9 @@ template<typename A, size_t N>
     return in;
 }
 
-template<typename A, size_t N>
- std::ostream& operator <<(std::ostream& out, std::array<A, N> const& data) {
-    for (A item : data) {
+template<typename T, size_t N>
+ std::ostream& operator <<(std::ostream& out, std::array<T, N> const& data) {
+    for (T item : data) {
         out << item;
     }
     out << std::endl;

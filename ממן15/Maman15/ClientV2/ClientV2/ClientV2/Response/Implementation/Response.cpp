@@ -1,5 +1,3 @@
-
-
 #include "../../Utils/Headers/Serialize.h"
 #include "./../Headers/ResponseHeader.h"
 #include "./../Headers/ResponseCode.h"
