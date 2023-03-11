@@ -12,6 +12,7 @@ The Handlers component is in charge of handling requests and implements the Requ
 
 
 Client
+
 The client code is divided into several main components. The Main component is responsible for the client's main logic and uses standard TCP to control the connection. It binds to a port specified in port.info.
 
 The User component is in charge of determining what actions the user can perform. The Response component is responsible for handling responses from the server and uses AES to set the payload accordingly. The Request component handles sending requests to the server and uses CRC to check for errors in the data transmission.
