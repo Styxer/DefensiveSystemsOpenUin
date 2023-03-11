@@ -15,7 +15,8 @@ using boost::asio::ip::tcp;
 using namespace boost;
 
 int main(void) {
-    try {
+    try {       
+
         TransferConfig transfer_config(transfer_config_filename);
         ClientConfig client_config(client_config_filename);
         client_config.set_username(transfer_config.get_username());

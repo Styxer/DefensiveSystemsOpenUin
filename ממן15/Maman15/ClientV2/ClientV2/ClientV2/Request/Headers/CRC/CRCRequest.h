@@ -1,6 +1,5 @@
 #pragma once
 #include <array>
-#include <string>
 
 #include "CRCRequestPayload.h"
 #include "../../../Utils/Headers/Constants.h"
@@ -8,12 +7,12 @@
 
 #include "./../Request/Request.h"
 
-template<RequestCode  C>
+template<RequestCode C>
 class CRCRequest : public Request<C, CRCRequestPayload> {
 public:
-    CRCRequest(const client_id& client_id, const std::string& filename) : Request(client_id) {
-        std::copy(client_id.begin(), client_id.end(), this->_payload.clientID.begin());
-        std::copy(filename.begin(), filename.end(), this->_payload.filename.begin());
+    CRCRequest(const client_id &client_id, const std::string &filename) : Request(client_id) {
+        std::copy(client_id.begin(), client_id.end(), this->payload_.client_id.begin());
+        std::copy(filename.begin(), filename.end(), this->payload_.file_name.begin());
     }
 };
 

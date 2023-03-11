@@ -1,0 +1,37 @@
+﻿  ClientConfig.cpp
+  Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
+  - add -D_WIN32_WINNT=0x0601 to the compiler command line; or
+  - add _WIN32_WINNT=0x0601 to your project's Preprocessor Definitions.
+  Assuming _WIN32_WINNT=0x0601 (i.e. Windows 7 target).
+  TransferConfig.cpp
+  AESWrapper.cpp
+  Base64Wrapper.cpp
+  RSAWrapper.cpp
+  main.cpp
+  Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
+  - add -D_WIN32_WINNT=0x0601 to the compiler command line; or
+  - add _WIN32_WINNT=0x0601 to your project's Preprocessor Definitions.
+  Assuming _WIN32_WINNT=0x0601 (i.e. Windows 7 target).
+  Request.cpp
+  Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
+  - add -D_WIN32_WINNT=0x0601 to the compiler command line; or
+  - add _WIN32_WINNT=0x0601 to your project's Preprocessor Definitions.
+  Assuming _WIN32_WINNT=0x0601 (i.e. Windows 7 target).
+  Response.cpp
+  Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
+  - add -D_WIN32_WINNT=0x0601 to the compiler command line; or
+  - add _WIN32_WINNT=0x0601 to your project's Preprocessor Definitions.
+  Assuming _WIN32_WINNT=0x0601 (i.e. Windows 7 target).
+  User.cpp
+  Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
+  - add -D_WIN32_WINNT=0x0601 to the compiler command line; or
+  - add _WIN32_WINNT=0x0601 to your project's Preprocessor Definitions.
+  Assuming _WIN32_WINNT=0x0601 (i.e. Windows 7 target).
+C:\Users\genni\OneDrive\Desktop\תכנות מערכות דפנסיבי\DefensiveSystemsOpenUin\ממן15\Maman15\ClientV2\ClientV2\ClientV2\User\Implementation\User.cpp(100,93): warning C4244: 'argument': conversion from 'const uintmax_t' to 'uint32_t', possible loss of data
+C:\Users\genni\OneDrive\Desktop\תכנות מערכות דפנסיבי\DefensiveSystemsOpenUin\ממן15\Maman15\ClientV2\ClientV2\ClientV2\User\Implementation\User.cpp(135,102): warning C4267: 'argument': conversion from 'size_t' to 'const uint32_t', possible loss of data
+C:\Users\genni\OneDrive\Desktop\תכנות מערכות דפנסיבי\DefensiveSystemsOpenUin\ממן15\Maman15\ClientV2\ClientV2\ClientV2\Request\Headers\CRC\CRCRequest.h(13,75): error C2614: 'CRCRequest<RequestCode::incorrect_crc_final>': illegal member initialization: 'Request' is not a base or member
+C:\Users\genni\OneDrive\Desktop\תכנות מערכות דפנסיבי\DefensiveSystemsOpenUin\ממן15\Maman15\ClientV2\ClientV2\ClientV2\Request\Headers\CRC\CRCRequest.h(13,1): message : while compiling class template member function 'CRCRequest<RequestCode::incorrect_crc_final>::CRCRequest(const client_id &,const std::string &)'
+C:\Users\genni\OneDrive\Desktop\תכנות מערכות דפנסיבי\DefensiveSystemsOpenUin\ממן15\Maman15\ClientV2\ClientV2\ClientV2\User\Implementation\User.cpp(123,50): message : see reference to function template instantiation 'CRCRequest<RequestCode::incorrect_crc_final>::CRCRequest(const client_id &,const std::string &)' being compiled
+C:\Users\genni\OneDrive\Desktop\תכנות מערכות דפנסיבי\DefensiveSystemsOpenUin\ממן15\Maman15\ClientV2\ClientV2\ClientV2\User\Implementation\User.cpp(123,51): message : see reference to class template instantiation 'CRCRequest<RequestCode::incorrect_crc_final>' being compiled
+  Checksum.cpp
+  Generating Code...

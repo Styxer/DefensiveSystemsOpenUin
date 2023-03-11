@@ -37,8 +37,8 @@ void User::sign_up(tcp::iostream& tcp_stream) const
     }
 
     const UserRegistrationRequest request(this->client_config_.get_username());
-    tcp_stream <<= request.getHeader();
-    tcp_stream <<= request.getPayload();
+    tcp_stream <<= request.get_header();
+    tcp_stream <<= request.get_payload();
 
     ResponseHeader response_header;
     tcp_stream >>= response_header;
@@ -57,8 +57,8 @@ void User::sign_up(tcp::iostream& tcp_stream) const
 void User::do_key_exchange(tcp::iostream& tcpStream) {
 	const PublicKeyExchangeRequest request(this->client_config_.get_client_id(), this->client_config_.get_username(),
 	                                       this->client_config_.get_public_key());
-    tcpStream <<= request.getHeader();
-    tcpStream <<= request.getPayload();
+    tcpStream <<= request.get_header();
+    tcpStream <<= request.get_payload();
 
     ResponseHeader response_header;
     tcpStream >>= response_header;
@@ -81,7 +81,15 @@ void User::upload_file(tcp::iostream& tcp_stream, const std::string& file_name) 
 
 
     const uintmax_t file_size = filesystem::file_size(file_name);
-    FILE* file = std::fopen(file_name.c_str(), "rb");
+
+    FILE* file;
+    errno_t err;
+    if((err = fopen_s(&file, file_name.c_str(), "rb")) != 0)
+    {
+        std::cerr << "could not open file " << file_name << err << std::endl;
+        return ;
+    }
+   
     std::vector<uint8_t> file_contents(file_size);
     std::fread(file_contents.data(), sizeof(uint8_t), file_size, file);
     std::fclose(file);
@@ -97,24 +105,24 @@ void User::upload_file(tcp::iostream& tcp_stream, const std::string& file_name) 
         }
 
         incorrect_crc_retry_request request(this->client_config_.get_client_id(), file_name);
-        tcp_stream <<= request.getHeader();
-        tcp_stream <<= request.getPayload();
+        tcp_stream <<= request.get_header();
+        tcp_stream <<= request.get_payload();
         tcp_stream >>= response_header;
 
-        std::cerr << "Got response code " << static_cast<uint16_t>(response_header.get_code()) << std::endl;
+        std::cerr << "Got response code " << static_cast<uint16_t>(response_header.get_code()) << std::endl; 
     }
 
     if (is_correct_crc) {
         std::cout << "Got correct CRC for " << file_name << std::endl;
         const correct_crc_request request(this->client_config_.get_client_id(), file_name);
-        tcp_stream <<= request.getHeader();
-        tcp_stream <<= request.getPayload();
+        tcp_stream <<= request.get_header();
+        tcp_stream <<= request.get_payload();
     }
     else {
         std::cout << "CRC retries exhausted, failed to upload " << file_name << std::endl;
         const incorrect_crc_final_request request(this->client_config_.get_client_id(), file_name);
-        tcp_stream <<= request.getHeader();
-        tcp_stream <<= request.getPayload();
+        tcp_stream <<= request.get_header();
+        tcp_stream <<= request.get_payload();
     }
 
     tcp_stream >>= response_header;
@@ -125,8 +133,8 @@ uint32_t User::send_file(boost::asio::ip::tcp::iostream& tcp_stream, const std::
     const std::string encrypted = this->aes_.encrypt(file_contents.data(), file_size);
 
     const FileUploadRequest request(this->client_config_.get_client_id(), file_name, encrypted.size());
-    tcp_stream <<= request.getHeader();
-    tcp_stream <<= request.getPayload();
+    tcp_stream <<= request.get_header();
+    tcp_stream <<= request.get_payload();
     tcp_stream <<= encrypted;
 
     ResponseHeader response_header;

@@ -29,5 +29,5 @@ using client_id = std::array<uint8_t, client_id_length>;
 //Type indicating the user_name to 
 using user_name = std::array<uint8_t, max_username_length>;
 
-// * Type indicating the file_name to 
+// Type indicating the file_name to 
 using file_name = std::array<uint8_t, max_filename_length>;

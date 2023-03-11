@@ -1,8 +1,16 @@
 ﻿  aes_handler.cpp
+C:\Users\genni\OneDrive\Desktop\תכנות מערכות דפנסיבי\DefensiveSystemsOpenUin\ממן15\Maman15\Client\Client\AESHandler.h(4,10): fatal  error C1083: Cannot open include file: 'aes.h': No such file or directory
   Base64Handler.cpp
+C:\Users\genni\OneDrive\Desktop\תכנות מערכות דפנסיבי\DefensiveSystemsOpenUin\ממן15\Maman15\Client\Client\Base64Handler.h(4,10): fatal  error C1083: Cannot open include file: 'base64.h': No such file or directory
+  Checksum.cpp
   Main.cpp
   PrivateRSAHandler.cpp
+C:\Users\genni\OneDrive\Desktop\תכנות מערכות דפנסיבי\DefensiveSystemsOpenUin\ממן15\Maman15\Client\Client\RSAHandler.h(2,10): fatal  error C1083: Cannot open include file: 'osrng.h': No such file or directory
   PublicRSAHandler.cpp
+C:\Users\genni\OneDrive\Desktop\תכנות מערכות דפנסיבי\DefensiveSystemsOpenUin\ממן15\Maman15\Client\Client\RSAHandler.h(2,10): fatal  error C1083: Cannot open include file: 'osrng.h': No such file or directory
+  Request.cpp
+  Please define _WIN32_WINNT or _WIN32_WINDOWS appropriately. For example:
+  - add -D_WIN32_WINNT=0x0601 to the compiler command line; or
+  - add _WIN32_WINNT=0x0601 to your project's Preprocessor Definitions.
+  Assuming _WIN32_WINNT=0x0601 (i.e. Windows 7 target).
   Generating Code...
-LINK : fatal error LNK1104: cannot open file 'C:\Users\genni\Downloads\cryptopp870\x64\Output\Debug.obj'
-C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(1096,5): error MSB6006: "link.exe" exited with code 1104.

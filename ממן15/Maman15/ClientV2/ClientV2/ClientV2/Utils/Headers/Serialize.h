@@ -38,12 +38,12 @@ template<typename T, size_t N>
 
 template<typename T, size_t N>
  std::istream& operator >>(std::istream& in, std::array<T, N>& data) {
-    size_t readSize = N * sizeof(T);
+    size_t read_size = N * sizeof(T);
 
     if (in.flags() & std::ios_base::hex) {
-        readSize *= 2;
+        read_size *= 2;
     }
-    in.getline(reinterpret_cast<char*>(data.data()), readSize);
+    in.getline(reinterpret_cast<char*>(data.data()), read_size);
     return in;
 }
 

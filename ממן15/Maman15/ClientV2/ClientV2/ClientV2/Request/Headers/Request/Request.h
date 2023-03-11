@@ -12,11 +12,11 @@ public:
     explicit Request(const client_id& client_id, const uint32_t payload_size = sizeof(T)) : header_(client_id, C, payload_size), payload_() {}
     Request() : Request({ 0 }) {}
 
-    const RequestHeader& ::Request<C, T>::getHeader() const noexcept {
+    const RequestHeader& get_header() const noexcept {
         return this->header_;
     }
 
-    const T& ::Request<C, T>::getPayload() const noexcept {
+    const T& get_payload() const noexcept {
         return this->payload_;
     }
 
