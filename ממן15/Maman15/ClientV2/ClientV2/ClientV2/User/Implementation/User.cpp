@@ -27,6 +27,9 @@
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/filesystem.hpp>
 
+
+
+
 void User::sign_up(tcp::iostream& tcp_stream) const
 {
     if (this->client_config_.is_full()) {
