@@ -10,7 +10,7 @@
 template<RequestCode C>
 class CRCRequest : public Request<C, CRCRequestPayload> {
 public:
-    CRCRequest(const client_id &client_id, const std::string &filename) : Request(client_id) {
+    CRCRequest(const client_id &client_id, const std::string &filename) : Request<C, CRCRequestPayload>(client_id) {
         std::copy(client_id.begin(), client_id.end(), this->payload_.client_id.begin());
         std::copy(filename.begin(), filename.end(), this->payload_.file_name.begin());
     }

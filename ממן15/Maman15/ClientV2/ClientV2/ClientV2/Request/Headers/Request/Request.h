@@ -12,7 +12,7 @@ public:
     explicit Request(const client_id& client_id, const uint32_t payload_size = sizeof(T)) : header_(client_id, C, payload_size), payload_() {}
     Request() : Request({ 0 }) {}
 
-    const RequestHeader& get_header() const noexcept {
+    [[nodiscard]] const RequestHeader& get_header() const noexcept {
         return this->header_;
     }
 
@@ -25,4 +25,4 @@ protected:
     T payload_;
 };
 
-std::ostream& operator <<=(std::ostream& out, RequestHeader const& request_header);
+std::ostream& operator<<=(std::ostream& out, RequestHeader const& request_header);
